@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--*****************************************************-->
+    <!-- Activity 或 Fragment 的颜色值  -->
+    <!--*****************************************************-->
+    <!--标题背景颜色-->
+    <color name="color_title_bar">#FF292929</color>
+    <color name="color_title_text">#FFFFFFFF</color>
+    <color name="color_tab_text">#FFFFFFFF</color>
+    <color name="color_tab_text_select">#FFFFC300</color>
+</resources>

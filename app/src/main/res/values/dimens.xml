@@ -1,0 +1,9 @@
+<resources>
+    <!--标题栏  XListViewFooter底部加载框的高度 -->
+    <dimen name="title_height">48dp</dimen>
+    <dimen name="title_left_width">48dp</dimen>
+    <dimen name="title_left_padding">18dp</dimen>
+    <dimen name="title_top_padding">14dp</dimen>
+    <dimen name="title_action_top_padding">16dp</dimen>
+    <dimen name="title_textsize">16dp</dimen>
+</resources>
