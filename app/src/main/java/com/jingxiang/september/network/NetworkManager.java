@@ -25,6 +25,7 @@ public class NetworkManager<T>{
         this.listener = uiDataListener;
     }
 
+    //共有的get请求方法
     public void sendGetRequest(final String url, Object tag, Map<String,String> params){
         request = new BaseRequest<T>(url,tag,params);
         request.setmCls(mType);
@@ -33,6 +34,7 @@ public class NetworkManager<T>{
         request.sendGetRequest();
     }
 
+    //共有的post请求方法
     public void sendPostRequest(final String url, Object tag, Map<String,String> params){
         request = new BaseRequest<T>(url,tag,params);
         request.setmCls(mType);
@@ -41,10 +43,12 @@ public class NetworkManager<T>{
         request.sendPostRequest();
     }
 
+    //网络请求的取消
     public void cancelRequest(Object tag){
         request.cancelRequest(tag);
     }
 
+    //设置请求的页数
     public void setmRequestPage(int mRequestPage) {
         this.mRequestPage = mRequestPage;
     }

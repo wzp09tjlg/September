@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.jingxiang.september.network.util.HttpUtil;
-import com.jingxiang.september.util.CommonHelper;
 import com.jingxiang.september.util.GsonUtil;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
@@ -73,18 +72,6 @@ public class BaseRequest<T> implements Callback{
                     listener.onSuccess(parseNetworkResponse(data),mRequest);
             }
         });
-    }
-
-    public String getGetUrl(){
-        if(mParams == null)
-            return mUrl;
-        String sign = CommonHelper.getSign(mParams);
-        mParams.put("showapi_sign",sign);
-        StringBuilder builder = new StringBuilder();
-        builder.append(mUrl);
-        builder.append("?");
-        builder.append(CommonHelper.paramstoString(mParams,true));
-        return builder.toString();
     }
 
     public String getmUrl() {
