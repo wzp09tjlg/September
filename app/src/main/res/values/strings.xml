@@ -1,10 +1,25 @@
 <resources>
+
     <string name="app_name">September</string>
+    /**********************************************/
+    /**                    工具类                 **/
+    /**********************************************/
+    <!-- 网络请求 -->
+    <string name="net_err_no_net">无网络</string>
+    <string name="net_err_timeout">网络请求超时</string>
+    <string name="net_err_other">其他网络错误</string>
+    <string name="net_err_convert_null">数据转换错误</string>
+
+    /**********************************************/
+    /**                 Activity                 **/
+    /**********************************************/
     <!-- MainActivity -->
     <string name="main_tab1">精选</string>
     <string name="main_tab2">推荐</string>
     <string name="main_tab3">写故事</string>
     <string name="main_tab4">发现</string>
     <string name="main_tab5">我的</string>
-
+    <!-- NetWorkActivity -->
+    <string name="net_get">Get</string>
+    <string name="net_post">Post</string>
 </resources>

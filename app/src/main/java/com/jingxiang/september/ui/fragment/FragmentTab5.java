@@ -1,21 +1,28 @@
 package com.jingxiang.september.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.jingxiang.september.R;
+import com.jingxiang.september.ui.activity.NetworkActivity;
 import com.jingxiang.september.ui.base.BaseFragment;
+import com.jingxiang.september.util.GlideUtil;
 
 /**
  * Created by wu on 2016/9/12.
  */
-public class FragmentTab5 extends BaseFragment {
+public class FragmentTab5 extends BaseFragment implements
+        View.OnClickListener
+{
     /** View*/
     private ImageView imgIcon;
+    private Button btnNetwork;
 
     /** Data*/
 
@@ -44,13 +51,34 @@ public class FragmentTab5 extends BaseFragment {
         initTitle(view);
 
         imgIcon = $(view,R.id.img_girl);
+        btnNetwork = $(view,R.id.btn_network);
+
         initData();
     }
 
     private void initTitle(View view){}
 
     private void initData(){
-//        GlideUtil.setImage(getContext(),imgIcon,R.drawable.icon_nice_girl_in_sorry
-//                ,R.drawable.icon_loading,R.drawable.icon_loading_failure,R.drawable.icon_loading_no_wifi);
+        GlideUtil.setImage(getContext(),imgIcon,R.drawable.icon_nice_girl_in_sorry
+                ,R.drawable.icon_loading,R.drawable.icon_loading_failure,R.drawable.icon_loading_no_wifi);
+
+        initListener();
+    }
+
+    private void initListener(){
+        btnNetwork.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_network:
+                Bundle bundle = new Bundle();
+                bundle.putString("TITLE","network");
+                Intent intent = new Intent(getActivity(), NetworkActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                break;
+        }
     }
 }

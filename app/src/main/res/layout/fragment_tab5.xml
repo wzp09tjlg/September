@@ -7,7 +7,11 @@
         android:id="@+id/img_girl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/icon_nice_girl_in_sorry"/>
-
+        android:scaleType="centerCrop"/>
+    <Button
+        android:id="@+id/btn_network"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="netork"
+        android:gravity="center" />
 </RelativeLayout>
