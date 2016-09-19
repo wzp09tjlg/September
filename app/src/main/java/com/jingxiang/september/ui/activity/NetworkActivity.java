@@ -105,6 +105,7 @@ public class NetworkActivity extends BaseActivity implements
         }
     }
 
+    // get方式请求电话号码归属地
     private void doQueryNumLocalInfo(){
         manager = new NetworkManager<>(PhoneNumBean.class
                 ,getListener());
@@ -115,6 +116,7 @@ public class NetworkActivity extends BaseActivity implements
         manager.sendGetRequest(FinalUtil.PATH_QUERY_PHONE,TAG,param);
     }
 
+    // post方式请求电话号码归属地
     private void doPostQueryNumLocalInfo(){
         manager = new NetworkManager<>(PhoneNumBean.class
                 ,getListener());
