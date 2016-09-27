@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.jingxiang.september.R;
 import com.jingxiang.september.network.NetworkManager;
+import com.jingxiang.september.network.parse.EntertainmentVideoList;
+import com.jingxiang.september.network.parse.IDCardBean;
 import com.jingxiang.september.network.parse.PhoneNumBean;
 import com.jingxiang.september.network.request.BaseRequest;
 import com.jingxiang.september.ui.base.BaseActivity;
@@ -97,10 +99,18 @@ public class NetworkActivity extends BaseActivity implements
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_get:
+                //1.使用get方法获取手机号码的归属地信息
                 doQueryNumLocalInfo();
+                //2.使用get方法获取娱乐信息
+                //doGetEntertainmentVideoListInfo();
+                //3.使用get方法获取身份证信息
+                //doGetIDCardInfo();
                 break;
             case R.id.btn_post:
+                //使用post的方法获取手机号码的归属地信息
                 doPostQueryNumLocalInfo();
+                //使用post的方法获取娱乐信息
+                //doPostEntertainmentVideoListInfo();
                 break;
         }
     }
@@ -113,7 +123,7 @@ public class NetworkActivity extends BaseActivity implements
         Map<String,String> param = new HashMap<>();
         param.put("showapi_appid",FinalUtil.SHOW_API_APP_KEY);
         param.put("num","15210521539");
-        manager.sendGetRequest(FinalUtil.PATH_QUERY_PHONE,TAG,param);
+        manager.sendGetRequest(FinalUtil.SHOW_API_QUERY_PHONE,TAG,param);
     }
 
     // post方式请求电话号码归属地
@@ -124,9 +134,10 @@ public class NetworkActivity extends BaseActivity implements
         Map<String,String> param = new HashMap<>();
         param.put("showapi_appid",FinalUtil.SHOW_API_APP_KEY);
         param.put("num","15210521539");
-        manager.sendPostRequest(FinalUtil.PATH_QUERY_PHONE,TAG,param);
+        manager.sendPostRequest(FinalUtil.SHOW_API_QUERY_PHONE,TAG,param);
     }
 
+    //返回单个的数据的listener
     private BaseRequest.Listener<PhoneNumBean> getListener(){
         BaseRequest.Listener<PhoneNumBean> listener = new BaseRequest.Listener<PhoneNumBean>() {
             @Override
@@ -137,6 +148,67 @@ public class NetworkActivity extends BaseActivity implements
             @Override
             public void onSuccess(PhoneNumBean phoneNumBean, BaseRequest request) {
                LogUtil.e("onSuccess: phoneNumBean:" + phoneNumBean);
+            }
+        };
+        return listener;
+    }
+
+    //使用get方式获取娱乐资讯
+    private void doGetEntertainmentVideoListInfo(){
+        NetworkManager<EntertainmentVideoList> manager = new NetworkManager<>(EntertainmentVideoList.class
+                ,getVideoListener());
+        manager.setmRequestPage(1);
+        Map<String,String> param = new HashMap<>();
+        param.put("showapi_appid",FinalUtil.SHOW_API_APP_KEY);
+        manager.sendGetRequest(FinalUtil.SHOW_API_VIDEO_LIST,TAG,param);
+    }
+
+    //使用post方式获取娱乐资讯
+    private void doPostEntertainmentVideoListInfo(){
+        NetworkManager<EntertainmentVideoList> manager = new NetworkManager<>(EntertainmentVideoList.class
+                ,getVideoListener());
+        manager.setmRequestPage(1);
+        Map<String,String> param = new HashMap<>();
+        param.put("showapi_appid",FinalUtil.SHOW_API_APP_KEY);
+        manager.sendPostRequest(FinalUtil.SHOW_API_VIDEO_LIST,TAG,param);
+    }
+
+    //娱乐资讯的回调
+    private BaseRequest.Listener<EntertainmentVideoList> getVideoListener(){
+        BaseRequest.Listener<EntertainmentVideoList> listListener = new BaseRequest.Listener<EntertainmentVideoList>() {
+            @Override
+            public void onFailure(String errMsg, BaseRequest request) {
+              LogUtil.e("onFailure: errMsg:" + errMsg);
+            }
+
+            @Override
+            public void onSuccess(EntertainmentVideoList entertainmentVideoList, BaseRequest request) {
+                LogUtil.e("onSuccess: entertainmentVideoList:" + entertainmentVideoList);
+            }
+        };
+        return listListener;
+    }
+
+    private void doGetIDCardInfo(){
+        NetworkManager<IDCardBean> manager = new NetworkManager<>(IDCardBean.class
+                ,getIDCardListener());
+        manager.setmRequestPage(1);
+        Map<String,String> param = new HashMap<>();
+        param.put("showapi_appid",FinalUtil.SHOW_API_APP_KEY);
+        param.put("id","620403198402262859");//"433130198904172915");
+        manager.sendGetRequest(FinalUtil.SHOW_API_IDCARD_INFO,TAG,param);
+    }
+
+    private BaseRequest.Listener<IDCardBean> getIDCardListener(){
+        BaseRequest.Listener<IDCardBean> listener = new BaseRequest.Listener<IDCardBean>() {
+            @Override
+            public void onFailure(String errMsg, BaseRequest request) {
+               LogUtil.e("onFailure:  errMsg:" + errMsg);
+            }
+
+            @Override
+            public void onSuccess(IDCardBean idCardBean, BaseRequest request) {
+                LogUtil.e("onSuccess:  " + idCardBean.toString());
             }
         };
         return listener;

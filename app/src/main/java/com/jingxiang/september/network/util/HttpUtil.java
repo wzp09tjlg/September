@@ -20,17 +20,20 @@ public class HttpUtil {
     public static OkHttpClient mClient = new OkHttpClient();
 
     static {
-        mClient.setConnectTimeout(5, TimeUnit.SECONDS);
-        mClient.setWriteTimeout(10, TimeUnit.SECONDS);
-        mClient.setReadTimeout(30, TimeUnit.SECONDS);
+        mClient.setConnectTimeout(20, TimeUnit.SECONDS);
+        mClient.setWriteTimeout(20, TimeUnit.SECONDS);
+        mClient.setReadTimeout(20, TimeUnit.SECONDS);
     }
 
     //get请求
     public static void doGetRequest(BaseRequest<?> request){
         Map<String,String> map = request.getParams();
-        String sign = CommonHelper.getSign(map);
-        map.put("showapi_sign",sign);
-        String tempUrl = urlBuilder(request.getmUrl(),map);
+        String tempUrl = request.getmUrl();
+        if(map != null){
+            String sign = CommonHelper.getSign(map);
+            map.put("showapi_sign",sign);
+            tempUrl = urlBuilder(request.getmUrl(),map);
+        }
         mClient.newCall(new Request.Builder().url(tempUrl).tag(request.getTag())
                 .build()).enqueue(request);
     }
@@ -38,15 +41,17 @@ public class HttpUtil {
     //post请求  在header中设置请求的系统参数，在body中设置上传的参数(有区别哟)
     public static void doPostRequest(BaseRequest<?> request){
         Map<String,String> map = request.getParams();
-        String tempSign = CommonHelper.getSign(map);
-        if(!TextUtils.isEmpty(tempSign))
-            map.put("showapi_sign",tempSign);
-        Set<String> keys = map.keySet();
         FormEncodingBuilder encodingBuilder = new FormEncodingBuilder();
-        encodingBuilder.add("text/plain;charset=utf-8","");//这里是传content内容
-        for(String key:keys){
-            encodingBuilder.add(key,map.get(key));
+        if(map != null){
+            String tempSign = CommonHelper.getSign(map);
+            if(!TextUtils.isEmpty(tempSign))
+                map.put("showapi_sign",tempSign);
+            Set<String> keys = map.keySet();
+            for(String key:keys){
+                encodingBuilder.add(key,map.get(key));
+            }
         }
+
         RequestBody body = encodingBuilder.build();
         mClient.newCall(new Request.Builder().url(request.getmUrl()).tag(request.getTag())
                 .post(body).build()).enqueue(request);

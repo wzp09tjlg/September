@@ -4,7 +4,7 @@ import android.util.Log;
 
 /**
  * Created by wu on 2016/9/19.
- * d e i v w
+ * 复用系统的日志,封装对应的方法:d e i v w
  */
 public class LogUtil {
     private static String TAG = "wuzp";

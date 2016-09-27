@@ -5,9 +5,11 @@ import android.os.Looper;
 
 import com.jingxiang.september.network.util.HttpUtil;
 import com.jingxiang.september.util.GsonUtil;
+import com.jingxiang.september.util.LogUtil;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import com.squareup.okhttp.ResponseBody;
 
 import org.json.JSONObject;
 
@@ -63,10 +65,11 @@ public class BaseRequest<T> implements Callback{
             public void run() {
                 byte[] data = null;
                 try{
-                    data = response.body().bytes();
+                   ResponseBody body = response.body();
+                    if(body != null)
+                      data = body.bytes();
                 }catch (Exception e){
-                    if(listener != null)
-                        listener.onFailure("数据转换错误",null);
+                    LogUtil.e("Exception: data is null:" + (data == null));
                 }
                 if(listener != null)
                     listener.onSuccess(parseNetworkResponse(data),mRequest);

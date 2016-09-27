@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 /**
  * Created by wu on 2016/9/13.
- * 常见的保存对象是
+ * 常见的保存对象是 string int boolean
  */
 public class ComSharepref {
    private final String NAME = "SEPTEMBER";
@@ -34,11 +34,20 @@ public class ComSharepref {
       editor.commit();
    }
 
+   public static void put(String key,boolean value){
+      editor.putBoolean(key,value);
+      editor.commit();
+   }
+
    public static String get(String key,String defualtValue){
      return sharedPref.getString(key,defualtValue);
    }
 
    public static int get(String key,int defualtValue){
       return sharedPref.getInt(key, defualtValue);
+   }
+
+   public static boolean get(String key,boolean defualtValue){
+      return sharedPref.getBoolean(key, defualtValue);
    }
 }

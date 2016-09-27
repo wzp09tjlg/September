@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.jingxiang.september.R;
+import com.jingxiang.september.ui.activity.HandlerActivity;
 import com.jingxiang.september.ui.activity.NetworkActivity;
 import com.jingxiang.september.ui.base.BaseFragment;
 import com.jingxiang.september.util.GlideUtil;
@@ -23,6 +24,7 @@ public class FragmentTab5 extends BaseFragment implements
     /** View*/
     private ImageView imgIcon;
     private Button btnNetwork;
+    private Button btnHandler;
 
     /** Data*/
 
@@ -52,6 +54,7 @@ public class FragmentTab5 extends BaseFragment implements
 
         imgIcon = $(view,R.id.img_girl);
         btnNetwork = $(view,R.id.btn_network);
+        btnHandler = $(view,R.id.btn_handler);
 
         initData();
     }
@@ -67,6 +70,7 @@ public class FragmentTab5 extends BaseFragment implements
 
     private void initListener(){
         btnNetwork.setOnClickListener(this);
+        btnHandler.setOnClickListener(this);
     }
 
     @Override
@@ -78,6 +82,13 @@ public class FragmentTab5 extends BaseFragment implements
                 Intent intent = new Intent(getActivity(), NetworkActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                break;
+            case R.id.btn_handler:
+                Bundle bundleHandler = new Bundle();
+                bundleHandler.putString("TITLE","handler");
+                Intent intentHandler = new Intent(getActivity(), HandlerActivity.class);
+                intentHandler.putExtras(bundleHandler);
+                startActivity(intentHandler);
                 break;
         }
     }

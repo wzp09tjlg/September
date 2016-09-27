@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Created by wu on 2016/9/19.
+ * 这里只是简单的返回一个数据
  */
 public class PhoneNumBean implements Serializable {
     public int    ret_code;//未知参数

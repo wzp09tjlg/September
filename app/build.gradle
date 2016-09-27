@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.0"
-
     defaultConfig {
         applicationId "com.jingxiang.september"
         minSdkVersion 15
@@ -11,10 +10,25 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    //应用的签名,点开project struct,选择signing,然后添加一个签名.jks的文件直接文件名,如果不存在系统会自己创建.点击OK就行
+    signingConfigs {
+        release {
+            keyAlias 'september'
+            keyPassword 'sinabook'
+            storeFile file('keystore.jks')
+            storePassword 'sinabook'
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.release
         }
     }
 }
@@ -33,5 +47,4 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.squareup.okio:okio:1.5.0'
     compile 'com.google.code.gson:gson:2.6.1'
-    compile 'com.alibaba:fastjson:1.2.5'
 }
