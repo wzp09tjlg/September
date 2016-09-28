@@ -64,6 +64,13 @@ public class HandlerActivity extends BaseActivity implements
         initViews();
     }
 
+    @Override
+    protected void onDestroy() {
+        if(myThread.isAlive())
+            myThread.interrupt();
+        super.onDestroy();
+    }
+
     private void getExtral(Intent intent){
         Bundle bundle = intent.getExtras();
 

@@ -28,6 +28,7 @@ public class BaseActivity extends FragmentActivity {
     protected void onDestroy() {
         super.onDestroy();
         ((MApplication)getApplication()).removeActivity(this);
+        MApplication.getRefWatcher(this).watch(this);
     }
 
     /** 1.0版本提供的基本方法 */
