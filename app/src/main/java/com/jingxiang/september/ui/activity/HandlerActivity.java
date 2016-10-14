@@ -13,13 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jingxiang.september.R;
-import com.jingxiang.september.ui.base.BaseActivity;
+import com.jingxiang.september.ui.base.BaseFragmentActivity;
 import com.jingxiang.september.util.LogUtil;
 
 /**
  * Created by wu on 2016/9/20.
  */
-public class HandlerActivity extends BaseActivity implements
+public class HandlerActivity extends BaseFragmentActivity implements
         View.OnClickListener
 {
     private final int MSG_WHAT1 = 0X1001;
@@ -37,7 +37,6 @@ public class HandlerActivity extends BaseActivity implements
     private String mTitle;
 
     //ActivityThread thread;
-
     private MyThread myThread = new MyThread();
     private Handler mHandler = new Handler(){
         @Override
@@ -66,8 +65,10 @@ public class HandlerActivity extends BaseActivity implements
 
     @Override
     protected void onDestroy() {
-        if(myThread.isAlive())
+        if(myThread.isAlive()){
             myThread.interrupt();
+            myThread = null;
+        }
         super.onDestroy();
     }
 

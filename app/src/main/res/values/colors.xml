@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--*****************************************************-->
+    <!-- 控件的颜色值  -->
+    <!--*****************************************************-->
+    <!-- XListViewFooter -->
+    <color name="color_item_parent_bg">#FFF0F0F0</color>
+    <color name="color_item_bg">#FFFFFFFF</color>
+    <color name="color_item_bg_select">#FFF8F8F8</color>
+    <color name="color_item_divider">#FFDFDFDD</color>
+
+    <!--Item的配色 XListViewFooter内部文字的颜色 -->
+    <color name="color_item_title">#ff333333</color>
+    <color name="color_item_content">#ff737373</color>
+    <color name="color_item_author">#ff333333</color>
+    <color name="color_item_time">#ff999999</color>
+    <color name="color_item_normal">#ff6a6a6a</color>
+
+    <!--*****************************************************-->
     <!-- Activity 或 Fragment 的颜色值  -->
     <!--*****************************************************-->
     <!--标题背景颜色-->
@@ -8,4 +24,18 @@
     <color name="color_title_text">#FFFFFFFF</color>
     <color name="color_tab_text">#FFFFFFFF</color>
     <color name="color_tab_text_select">#FFFFC300</color>
+
+    <!--*****************************************************-->
+    <!-- 模式 的颜色值  -->
+    <!--*****************************************************-->
+    <color name="color_ffc300">#ffc300</color>
+    <color name="color_ff6666">#FF6666</color>
+    <color name="color_ff0000">#FF0000</color>
+    <color name="color_9f79ee">#9F79EE</color>
+    <color name="color_999999">#999999</color>
+    <color name="color_9932cc">#9932CC</color>
+    <color name="color_37c000">#37C000</color>
+    <color name="color_30a070">#30A070</color>
+    <color name="color_222222">#222222</color>
+    <color name="color_1e1e1e">#1e1e1e</color>
 </resources>

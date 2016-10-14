@@ -5,4 +5,20 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <!-- 设置写故事dialog弹出，退出动画 -->
+    <style name="EditorDialog" mce_bogus="1" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/dialog_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/dialog_exit_anim</item>
+    </style>
+
+    <!-- CommonDialog -->
+    <style name="CommonDialogStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!--<item name="android:windowBackground">@drawable/dialog_custom_bg</item>-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--<item name="android:backgroundDimEnabled">false</item>-->
+    </style>
 </resources>

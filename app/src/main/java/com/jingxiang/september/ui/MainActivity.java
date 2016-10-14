@@ -13,10 +13,10 @@ import android.widget.TextView;
 
 import com.jingxiang.september.R;
 import com.jingxiang.september.ui.adapter.MainTabAdapter;
-import com.jingxiang.september.ui.base.BaseActivity;
+import com.jingxiang.september.ui.base.BaseFragmentActivity;
 import com.jingxiang.september.ui.base.BaseFragment;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseFragmentActivity {
 
     /** View*/
     private FrameLayout layoutConain;

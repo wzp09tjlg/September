@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_test1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/test_opt1"
+        android:gravity="center"
+        android:textSize="16sp"/>
+
+    <Button
+        android:id="@+id/btn_test2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/test_opt2"
+        android:gravity="center"
+        android:textSize="16sp"/>
+
+    <Button
+        android:id="@+id/btn_test3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/test_opt3"
+        android:gravity="center"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btn_test4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/test_opt4"
+        android:gravity="center"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btn_test5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/test_opt5"
+        android:gravity="center"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btn_test6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/test_opt6"
+        android:gravity="center"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/img_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.jingxiang.september.ui.widget.RoundEditImageView
+        android:id="@+id/rimg_edit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/icon_nice_girl_eat"/>
+</LinearLayout>

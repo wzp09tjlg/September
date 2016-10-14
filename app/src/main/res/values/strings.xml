@@ -9,6 +9,10 @@
     <string name="net_err_timeout">网络请求超时</string>
     <string name="net_err_other">其他网络错误</string>
     <string name="net_err_convert_null">数据转换错误</string>
+    <!-- ListView 中FooterView -->
+    <string name="loadinfo_loadmore">加载更多</string>
+    <string name="loadinfo_loadmoreing">加载中</string>
+    <string name="loadinfo_loadmore_failed">加载失败，点此重试</string>
 
     /**********************************************/
     /**                 Activity                 **/
@@ -19,7 +23,34 @@
     <string name="main_tab3">写故事</string>
     <string name="main_tab4">发现</string>
     <string name="main_tab5">我的</string>
+    <!-- FragmentTab5 -->
+    <string name="tab5_Handler">handler</string>
+    <string name="tab5_Network">Network</string>
+    <string name="tab5_MapJson">MapJson</string>
+    <string name="tab5_Load">Load</string>
+    <string name="tab5_DB">DB</string>
+    <string name="tab5_Girls">tab5_Girls</string>
+    <string name="tab5_Test">Test</string>
     <!-- NetWorkActivity -->
     <string name="net_get">Get</string>
     <string name="net_post">Post</string>
+    <!-- MapJsonActivity 的页面 -->
+    <string name="Json_mapJson">MapJson</string>
+    <string name="Json_toJson">toJson</string>
+    <string name="Json_fromJson">fromJson</string>
+    <!-- 数据库页面 -->
+    <string name="DB">数据库</string>
+    <string name="createDB">创建数据库</string>
+    <string name="getReadDB">可读数据库</string>
+    <string name="getWriteDB">可写数据库</string>
+    <string name="updateDB">更新数据库</string>
+    <string name="updatedGetDB">更新数据库之后获取数据库</string>
+    <string name="testMethodDB">测试数据库中的各个方法</string>
+    <!-- TestActivity的页面 -->
+    <string name="test_opt1">测试一</string>
+    <string name="test_opt2">测试二</string>
+    <string name="test_opt3">测试三</string>
+    <string name="test_opt4">测试四</string>
+    <string name="test_opt5">测试五</string>
+    <string name="test_opt6">测试六</string>
 </resources>

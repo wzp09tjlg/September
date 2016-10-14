@@ -52,4 +52,8 @@ public class NetworkManager<T>{
     public void setmRequestPage(int mRequestPage) {
         this.mRequestPage = mRequestPage;
     }
+
+    public int getRequestPage() {
+        return mRequestPage;
+    }
 }

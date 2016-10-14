@@ -16,6 +16,7 @@ import java.util.List;
 
 /**
  * Created by wu on 2016/9/12.
+ * 创建主页的adapter 直接就创建各个fragment
  */
 public class MainTabAdapter extends FragmentPagerAdapter {
     public static final int TAB_COUNT = 5;

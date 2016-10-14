@@ -15,7 +15,7 @@ import com.jingxiang.september.network.parse.EntertainmentVideoList;
 import com.jingxiang.september.network.parse.IDCardBean;
 import com.jingxiang.september.network.parse.PhoneNumBean;
 import com.jingxiang.september.network.request.BaseRequest;
-import com.jingxiang.september.ui.base.BaseActivity;
+import com.jingxiang.september.ui.base.BaseFragmentActivity;
 import com.jingxiang.september.util.FinalUtil;
 import com.jingxiang.september.util.LogUtil;
 
@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * Created by wu on 2016/9/19.
  */
-public class NetworkActivity extends BaseActivity implements
+public class NetworkActivity extends BaseFragmentActivity implements
   View.OnClickListener
 {
    private final String TAG = NetworkActivity.class.getSimpleName();

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="15dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="16dp"/>
+
+    <com.jingxiang.september.ui.widget.TopCropImageView
+        android:id="@+id/img_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_item_inner_padding_left"
+        android:layout_marginRight="@dimen/dimen_item_inner_padding_left"
+        android:layout_marginTop="@dimen/dimen_item_inner_padding_top"
+        android:scaleType="centerCrop"
+        android:visibility="visible"
+        app:height_radio="0.54" />
+</LinearLayout>

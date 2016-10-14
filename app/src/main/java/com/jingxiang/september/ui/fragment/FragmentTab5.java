@@ -10,8 +10,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.jingxiang.september.R;
+import com.jingxiang.september.ui.activity.DBActivity;
+import com.jingxiang.september.ui.activity.GirlPicActivity;
 import com.jingxiang.september.ui.activity.HandlerActivity;
+import com.jingxiang.september.ui.activity.LoadActivity;
+import com.jingxiang.september.ui.activity.MapJsonActivity;
 import com.jingxiang.september.ui.activity.NetworkActivity;
+import com.jingxiang.september.ui.activity.TestActivity;
 import com.jingxiang.september.ui.base.BaseFragment;
 import com.jingxiang.september.util.GlideUtil;
 
@@ -25,6 +30,11 @@ public class FragmentTab5 extends BaseFragment implements
     private ImageView imgIcon;
     private Button btnNetwork;
     private Button btnHandler;
+    private Button btnMapJson;
+    private Button btnLoad;
+    private Button btnDB;
+    private Button btnGirls;
+    private Button btnTest;
 
     /** Data*/
 
@@ -55,6 +65,11 @@ public class FragmentTab5 extends BaseFragment implements
         imgIcon = $(view,R.id.img_girl);
         btnNetwork = $(view,R.id.btn_network);
         btnHandler = $(view,R.id.btn_handler);
+        btnMapJson = $(view,R.id.btn_MapJson);
+        btnLoad = $(view,R.id.btn_Load);
+        btnDB = $(view,R.id.btn_DB);
+        btnGirls = $(view,R.id.btn_Girls);
+        btnTest = $(view,R.id.btn_Test);
 
         initData();
     }
@@ -71,17 +86,22 @@ public class FragmentTab5 extends BaseFragment implements
     private void initListener(){
         btnNetwork.setOnClickListener(this);
         btnHandler.setOnClickListener(this);
+        btnMapJson.setOnClickListener(this);
+        btnLoad.setOnClickListener(this);
+        btnDB.setOnClickListener(this);
+        btnGirls.setOnClickListener(this);
+        btnTest.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_network:
-                Bundle bundle = new Bundle();
-                bundle.putString("TITLE","network");
-                Intent intent = new Intent(getActivity(), NetworkActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                Bundle bundleNetwork = new Bundle();
+                bundleNetwork.putString("TITLE","network");
+                Intent intentNetwork = new Intent(getActivity(), NetworkActivity.class);
+                intentNetwork.putExtras(bundleNetwork);
+                startActivity(intentNetwork);
                 break;
             case R.id.btn_handler:
                 Bundle bundleHandler = new Bundle();
@@ -89,6 +109,41 @@ public class FragmentTab5 extends BaseFragment implements
                 Intent intentHandler = new Intent(getActivity(), HandlerActivity.class);
                 intentHandler.putExtras(bundleHandler);
                 startActivity(intentHandler);
+                break;
+            case R.id.btn_MapJson:
+                Bundle bundleMapJson = new Bundle();
+                bundleMapJson.putString("TITLE","MapJson");
+                Intent intentMapJson = new Intent(getActivity(), MapJsonActivity.class);
+                intentMapJson.putExtras(bundleMapJson);
+                startActivity(intentMapJson);
+                break;
+            case R.id.btn_Load:
+                Bundle bundleLoad = new Bundle();
+                bundleLoad.putString("TITLE","Load");
+                Intent intentLoad = new Intent(getActivity(), LoadActivity.class);
+                intentLoad.putExtras(bundleLoad);
+                startActivity(intentLoad);
+                break;
+            case R.id.btn_DB:
+                Bundle bundleDB = new Bundle();
+                bundleDB.putString("TITLE","DB");
+                Intent intentDB = new Intent(getActivity(), DBActivity.class);
+                intentDB.putExtras(bundleDB);
+                startActivity(intentDB);
+                break;
+            case R.id.btn_Girls:
+                Bundle bundleGirls = new Bundle();
+                bundleGirls.putString("TITLE","Girls");
+                Intent intentGirls = new Intent(getActivity(), GirlPicActivity.class);
+                intentGirls.putExtras(bundleGirls);
+                startActivity(intentGirls);
+                break;
+            case R.id.btn_Test:
+                Bundle bundleTest = new Bundle();
+                bundleTest.putString("TITLE","Test");
+                Intent intentTest = new Intent(getActivity(), TestActivity.class);
+                intentTest.putExtras(bundleTest);
+                startActivity(intentTest);
                 break;
         }
     }

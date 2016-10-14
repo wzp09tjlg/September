@@ -19,4 +19,5 @@ public class FinalUtil {
     public static final String SHOW_API_QUERY_PHONE = "http://route.showapi.com/6-1";//手机号归属地查询
     public static final String SHOW_API_VIDEO_LIST = "http://route.showapi.com/951-1";//获取娱乐视频list
     public static final String SHOW_API_IDCARD_INFO = "http://route.showapi.com/25-3";//获取身份证信息
+    public static final String SHOW_API_GIRL_PIC = "http://route.showapi.com/197-1";  //获取图片信息
 }
