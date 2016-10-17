@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jingxiang.september">
 
+    <!-- 访问网络权限 -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- 读写本地文件权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MApplication"
@@ -34,6 +38,8 @@
         <activity android:name=".ui.activity.GirlPicActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.WebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.AuthorActivity"
             android:screenOrientation="portrait"/>
 
     </application>

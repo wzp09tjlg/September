@@ -8,11 +8,14 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.jingxiang.september.MApplication;
 import com.jingxiang.september.R;
+import com.jingxiang.september.download.DownloadManager2;
 import com.jingxiang.september.network.parse.ChannelItem;
 import com.jingxiang.september.ui.base.BaseFragmentActivity;
 import com.jingxiang.september.ui.widget.RoundEditImageView;
@@ -53,6 +56,7 @@ public class TestActivity extends BaseFragmentActivity implements
 
     /** Data */
     private Context mContext;
+    private DownloadManager2 manager2 ;
 
     /**********************************************/
     @Override
@@ -157,8 +161,14 @@ public class TestActivity extends BaseFragmentActivity implements
 
                 break;
             case R.id.btn_test5:
+                //测试downloadmanager 下载文件的及对下载进度的监听
+                String url = "http://count.liqucn.com/d.php?id=539643&urlos=android&from_type=web";
+                manager2 = DownloadManager2.getInstance(mContext);
+                manager2.startDownload(url,"September","Huasheng.apk",getDownloadListener());
+                manager2.selectDownloadPercent(mContext);//想系统的contentprovider 注册监听
                 break;
             case R.id.btn_test6:
+
                 break;
 
         }
@@ -280,5 +290,35 @@ public class TestActivity extends BaseFragmentActivity implements
         LogUtil.i("duration operate time is:" + (stopTime - startTime));
     }
 
+    private DownloadManager2.OnDownloadListener getDownloadListener(){
+        DownloadManager2.OnDownloadListener listener = new DownloadManager2.OnDownloadListener() {
+            @Override
+            public void onDownloadListener(int percent) {
+               LogUtil.i("onDownloadListener ---- percenter:" + percent);
+            }
+
+            @Override
+            public void onCompleteListener() {
+                if(manager2 != null)
+                    manager2.stopDownload(mContext);
+            }
+        };
+        return listener;
+    }
+
+    // 写一个动画的监听，重写了几个方法
+    private void doSomeAnimation(){
+        Animation animation = new Animation() {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                super.applyTransformation(interpolatedTime, t);
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return super.willChangeBounds();
+            }
+        };
+    }
 
 }

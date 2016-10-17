@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app:com.jingxiang.september.ui.widget.DynamicRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_head"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/icon_nice_girl_in_snow"
+    app:height_radio="0.75" />

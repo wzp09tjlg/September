@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.jingxiang.september.R;
+import com.jingxiang.september.ui.activity.AuthorActivity;
 import com.jingxiang.september.ui.activity.DBActivity;
 import com.jingxiang.september.ui.activity.GirlPicActivity;
 import com.jingxiang.september.ui.activity.HandlerActivity;
@@ -34,6 +35,7 @@ public class FragmentTab5 extends BaseFragment implements
     private Button btnLoad;
     private Button btnDB;
     private Button btnGirls;
+    private Button btnSports;
     private Button btnTest;
 
     /** Data*/
@@ -69,6 +71,7 @@ public class FragmentTab5 extends BaseFragment implements
         btnLoad = $(view,R.id.btn_Load);
         btnDB = $(view,R.id.btn_DB);
         btnGirls = $(view,R.id.btn_Girls);
+        btnSports = $(view,R.id.btn_Sports);
         btnTest = $(view,R.id.btn_Test);
 
         initData();
@@ -90,6 +93,7 @@ public class FragmentTab5 extends BaseFragment implements
         btnLoad.setOnClickListener(this);
         btnDB.setOnClickListener(this);
         btnGirls.setOnClickListener(this);
+        btnSports.setOnClickListener(this);
         btnTest.setOnClickListener(this);
     }
 
@@ -144,6 +148,13 @@ public class FragmentTab5 extends BaseFragment implements
                 Intent intentTest = new Intent(getActivity(), TestActivity.class);
                 intentTest.putExtras(bundleTest);
                 startActivity(intentTest);
+                break;
+            case R.id.btn_Sports:
+                Bundle bundleSports = new Bundle();
+                bundleSports.putString("TITLE","sports new");
+                Intent intentSports = new Intent(getActivity(), AuthorActivity.class);
+                intentSports.putExtras(bundleSports);
+                startActivity(intentSports);
                 break;
         }
     }

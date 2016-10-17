@@ -20,4 +20,5 @@ public class FinalUtil {
     public static final String SHOW_API_VIDEO_LIST = "http://route.showapi.com/951-1";//获取娱乐视频list
     public static final String SHOW_API_IDCARD_INFO = "http://route.showapi.com/25-3";//获取身份证信息
     public static final String SHOW_API_GIRL_PIC = "http://route.showapi.com/197-1";  //获取图片信息
+    public static final String SHOW_API_SPORTS_NEWS = "http://route.showapi.com/196-1";//获取体育新闻
 }

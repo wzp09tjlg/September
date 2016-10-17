@@ -50,10 +50,17 @@
         android:text="@string/tab5_Girls"
         android:gravity="center" />
     <Button
+        android:id="@+id/btn_Sports"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_Girls"
+        android:text="@string/tab5_Sports"
+        android:gravity="center" />
+    <Button
         android:id="@+id/btn_Test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btn_DB"
+        android:layout_below="@id/btn_Sports"
         android:text="@string/tab5_Test"
         android:gravity="center" />
 </RelativeLayout>

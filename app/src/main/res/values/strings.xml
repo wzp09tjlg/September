@@ -30,6 +30,7 @@
     <string name="tab5_Load">Load</string>
     <string name="tab5_DB">DB</string>
     <string name="tab5_Girls">tab5_Girls</string>
+    <string name="tab5_Sports">tab5_Sports</string>
     <string name="tab5_Test">Test</string>
     <!-- NetWorkActivity -->
     <string name="net_get">Get</string>
