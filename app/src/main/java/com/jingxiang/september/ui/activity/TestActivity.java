@@ -50,6 +50,7 @@ public class TestActivity extends BaseFragmentActivity implements
     private Button btnTest4;
     private Button btnTest5;
     private Button btnTest6;
+    private Button btnTest7;
     private ImageView imgIcon;
 
     private RoundEditImageView roundEditImageView;
@@ -73,6 +74,7 @@ public class TestActivity extends BaseFragmentActivity implements
         btnTest4 = $(R.id.btn_test4);
         btnTest5 = $(R.id.btn_test5);
         btnTest6 = $(R.id.btn_test6);
+        btnTest7 = $(R.id.btn_test7);
         imgIcon = $(R.id.img_icon);
         roundEditImageView = $(R.id.rimg_edit);
 
@@ -96,6 +98,7 @@ public class TestActivity extends BaseFragmentActivity implements
         btnTest4.setOnClickListener(this);
         btnTest5.setOnClickListener(this);
         btnTest6.setOnClickListener(this);
+        btnTest7.setOnClickListener(this);
     }
 
     @Override
@@ -168,9 +171,15 @@ public class TestActivity extends BaseFragmentActivity implements
                 manager2.selectDownloadPercent(mContext);//想系统的contentprovider 注册监听
                 break;
             case R.id.btn_test6:
-
+                //测试使用service的类
+                Bundle bundleServiceTest = new Bundle();
+                bundleServiceTest.putString("TITLE","Service Test");
+                Intent intentServiceTest = new Intent(TestActivity.this, ServiceTestActivity.class);
+                intentServiceTest.putExtras(bundleServiceTest);
+                startActivity(intentServiceTest);
                 break;
-
+            case R.id.btn_test7:
+                break;
         }
     }
 
@@ -190,7 +199,7 @@ public class TestActivity extends BaseFragmentActivity implements
                   LogUtil.e("33");
               }catch (Exception e){
                   LogUtil.e("44 e:" + e.getMessage());
-              };
+              }
             }
         }).start();
 

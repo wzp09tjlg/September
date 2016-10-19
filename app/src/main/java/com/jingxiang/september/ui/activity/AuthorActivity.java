@@ -127,6 +127,10 @@ public class AuthorActivity extends BaseFragmentActivity implements
                 mRefresh.setRefreshing(false);
                 if(request.getmRequestPage() != mRequestIndex) return;
                 mCurIndex = mRequestIndex;
+                if(sportsNewsBeanList.newslist.size() < 10)
+                    mLoadList.setPullMore(false);
+                else
+                    mLoadList.setPullMore(true);
                 if(sportsNewsBeanList != null
                         && sportsNewsBeanList.newslist != null
                         && sportsNewsBeanList.newslist.size() >0)

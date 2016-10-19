@@ -15,6 +15,7 @@ import com.jingxiang.september.network.parse.BaseBook;
 import com.jingxiang.september.network.parse.BaseBookList;
 import com.jingxiang.september.network.parse.EmptyBean;
 import com.jingxiang.september.ui.base.BaseFragmentActivity;
+import com.jingxiang.september.ui.widget.GlobalToast.GloableToast;
 import com.jingxiang.september.util.CommonHelper;
 import com.jingxiang.september.util.GsonUtil;
 import com.jingxiang.september.util.LogUtil;
@@ -103,8 +104,11 @@ public class MapJsonActivity extends BaseFragmentActivity implements
         EmptyBean bean = gsonUtil.parse(tempEmpty);
         if(bean == null)
             LogUtil.e("bean is null");
-        else
+        else{
             LogUtil.e("bean is not null bean:" + bean.toString());
+            GloableToast.show(bean.toString());
+        }
+
 
     }
 
@@ -122,22 +126,26 @@ public class MapJsonActivity extends BaseFragmentActivity implements
         }
         if(list == null)
             LogUtil.e("list is null");
-        else
+        else {
             LogUtil.e("list is not null list:" + builder.toString());
+            GloableToast.show(builder.toString());
+        }
     }
 
-    private void doConvertJson2Bean1(){
-        String tempData = CommonHelper.getJsonElement(tempJson,"data");
-        if(TextUtils.isEmpty(tempData)) return;
+    private void doConvertJson2Bean1() {
+        String tempData = CommonHelper.getJsonElement(tempJson, "data");
+        if (TextUtils.isEmpty(tempData)) return;
         String tempJsonList = CommonHelper.getKeyNumBeanJson(tempData);
-        if(TextUtils.isEmpty(tempJsonList)) return;
+        if (TextUtils.isEmpty(tempJsonList)) return;
         GsonUtil<BaseBook> gsonUtil = new GsonUtil<BaseBook>(BaseBook.class);
-        BaseBook book =  gsonUtil.parse(tempJsonList);
+        BaseBook book = gsonUtil.parse(tempJsonList);
 
-        if(book == null)
+        if (book == null)
             LogUtil.e("list is null");
-        else
+        else{
             LogUtil.e("list is not null book:" + book);
+            GloableToast.show(book.toString());
+        }
     }
 
     private String tempEmpty = "{\"res_code\":0,\"res_msg\":\"this is s test msg\",\"res_bdy\":[]}";

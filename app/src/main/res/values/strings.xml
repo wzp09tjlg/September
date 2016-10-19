@@ -47,6 +47,11 @@
     <string name="updateDB">更新数据库</string>
     <string name="updatedGetDB">更新数据库之后获取数据库</string>
     <string name="testMethodDB">测试数据库中的各个方法</string>
+    <!-- ServiceActivity的页面 -->
+    <string name="service_start">service start</string>
+    <string name="service_stop">service stop</string>
+    <string name="service_bind">service bind</string>
+    <string name="service_unbind">service unbind</string>
     <!-- TestActivity的页面 -->
     <string name="test_opt1">测试一</string>
     <string name="test_opt2">测试二</string>
@@ -54,4 +59,5 @@
     <string name="test_opt4">测试四</string>
     <string name="test_opt5">测试五</string>
     <string name="test_opt6">测试六</string>
+    <string name="test_opt7">测试七</string>
 </resources>

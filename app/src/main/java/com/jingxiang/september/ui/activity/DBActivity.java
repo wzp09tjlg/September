@@ -313,4 +313,8 @@ public class DBActivity extends BaseFragmentActivity implements
     }
 
     //对查Video表的方法类似News的方法
+
+    //其他的处理
+    private void doSomeThing(){
+    }
 }
