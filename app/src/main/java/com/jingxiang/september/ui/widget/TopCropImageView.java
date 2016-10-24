@@ -55,7 +55,10 @@ public class TopCropImageView extends ImageView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (mHeightRatio > 0.0) {
-            super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec((int) (MeasureSpec.getSize(widthMeasureSpec) * mHeightRatio), MeasureSpec.getMode(widthMeasureSpec)));
+            int tempHeight = (int) (MeasureSpec.getSize(widthMeasureSpec) * mHeightRatio);
+            int tempMode = MeasureSpec.getMode(widthMeasureSpec);
+            int tempHeightMeasureSpec = MeasureSpec.makeMeasureSpec(tempHeight, tempMode);
+            super.onMeasure(widthMeasureSpec, tempHeightMeasureSpec);
         } else {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }

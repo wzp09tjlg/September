@@ -21,4 +21,7 @@ public class FinalUtil {
     public static final String SHOW_API_IDCARD_INFO = "http://route.showapi.com/25-3";//获取身份证信息
     public static final String SHOW_API_GIRL_PIC = "http://route.showapi.com/197-1";  //获取图片信息
     public static final String SHOW_API_SPORTS_NEWS = "http://route.showapi.com/196-1";//获取体育新闻
+
+    //下载更新的地址
+    public static final String HOST_DOWNLOAD = "http://client.hs.vread.com/config/check_app_update.json";
 }

@@ -124,13 +124,13 @@ public class BaseRequest<T> implements Callback{
         try {
             JSONObject jsonObject = new JSONObject(new String(data));
             GsonUtil<T> parse = new GsonUtil();
-            Object tempObject = jsonObject.get("showapi_res_body");
+            Object tempObject = jsonObject.get("data");//jsonObject.get("showapi_res_body");
             if(tempObject instanceof JSONArray){
                 String tempJson = tempObject.toString();
                 if(tempJson.equals("[]"))
                     return parse.parse(jsonObject.toString(),mCls);
             }
-            return parse.parse(jsonObject.get("showapi_res_body").toString(),mCls);
+            return parse.parse(tempObject.toString(),mCls);//jsonObject.get("showapi_res_body").toString(),mCls);
         } catch (Exception e) {
             e.printStackTrace();
         }

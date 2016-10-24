@@ -50,9 +50,7 @@ public class CommonDB extends SQLiteOpenHelper {
             " finished    INTEGER, " +   //下载已经完成的地址(上一次下载)
             " versioncode INTEGER," +    //下载的版本号 versionCode
             " status  INTEGER, " +       //状态  (未下载,下载未完成,下载已完成)
-            " updates TEXT, " +          //客户端更新的提示信息
-            " save_path TEXT, " +        //下载保存的路径
-            " filename  TEXT" +          //保存的文件名字
+            " updates TEXT" +            //客户端更新的提示信息
               ")";
 
     /**************************************/

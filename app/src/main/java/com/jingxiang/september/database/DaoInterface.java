@@ -1,6 +1,7 @@
 package com.jingxiang.september.database;
 
 import com.jingxiang.september.network.parse.ChannelItem;
+import com.jingxiang.september.network.parse.UpdateBean;
 
 import java.util.List;
 
@@ -36,4 +37,15 @@ public interface DaoInterface {
     boolean updateVideoItem(ChannelItem item);
     //排序
     List<ChannelItem> selectSortVideoItemList();
+
+    /** version_update */
+    //查询
+    UpdateBean selectUpdateBean(String versionCode);
+    //插入
+    boolean insertUpdateBean(UpdateBean bean);
+    //删除
+    boolean deleteUpdateBean(String versionCode);
+    boolean deleteAllUpdateBean();
+    //更新
+    boolean updateUpdateBean(UpdateBean bean);
 }

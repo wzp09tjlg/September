@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -225,5 +226,69 @@ public class CommonHelper {
         paint.setXfermode(xfermode);
         canvas.drawBitmap(bitmap, rect, rect, paint);
         return roundCornerBitmap;
+    }
+
+    private static DecimalFormat df = new DecimalFormat("#.##");
+    /**格式化大小*/
+    public static String formatSize(long size) {
+        String unit = "B";
+        float len = size;
+        if (len > 900) {
+            len /= 1024f;
+            unit = "KB";
+        }
+        if (len > 900) {
+            len /= 1024f;
+            unit = "MB";
+        }
+        if (len > 900) {
+            len /= 1024f;
+            unit = "GB";
+        }
+        if (len > 900) {
+            len /= 1024f;
+            unit = "TB";
+        }
+        return df.format(len) + unit;
+    }
+
+    public static String formatSizeBySecond(long size) {
+        String unit = "B";
+        float len = size;
+        if (len > 900) {
+            len /= 1024f;
+            unit = "KB";
+        }
+        if (len > 900) {
+            len /= 1024f;
+            unit = "MB";
+        }
+        if (len > 900) {
+            len /= 1024f;
+            unit = "GB";
+        }
+        if (len > 900) {
+            len /= 1024f;
+            unit = "TB";
+        }
+        return df.format(len) + unit + "/s";
+    }
+
+    public static String format(long size) {
+        String unit = "B";
+        float len = size;
+        if (len > 1000) {
+            len /= 1024f;
+            unit = "KB";
+            if (len > 1000) {
+                len /= 1024f;
+                unit = "MB";
+                if (len > 1000) {
+                    len /= 1024f;
+                    unit = "GB";
+                }
+            }
+        }
+        return df.format(len) + "\n" + unit + "/s";
     }
 }

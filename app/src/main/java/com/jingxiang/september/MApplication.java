@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.jingxiang.september.database.CommonDao;
+import com.jingxiang.september.download.update.UpdateManager;
 import com.jingxiang.september.ui.base.BaseFragmentActivity;
 import com.jingxiang.september.ui.widget.GlobalToast.GloableToast;
 import com.jingxiang.september.util.ComSharepref;
@@ -24,6 +25,7 @@ public class MApplication extends Application {
     public ComSharepref comSharepref;
     private RefWatcher refWatcher;
     public static CommonDao mCommonDao;
+    public static UpdateManager mUpdateManager;
     /*********************************************/
     @Override
     public void onCreate() {
@@ -46,6 +48,7 @@ public class MApplication extends Application {
         refWatcher = LeakCanary.install(this);
         GloableToast.getInsance(mContext);               //可以控制显示时间的toast
         mCommonDao = new CommonDao(mContext);            //数据库的公共类
+        mUpdateManager = UpdateManager.getInstance();    //版本更新工具类
 
         ThreadPool.init();                               //线程池的初始化
     }

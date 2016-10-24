@@ -7,6 +7,12 @@
     <!-- 读写本地文件权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 获取设备唯一编号需要的权限 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <!-- 获取监听网络状态改变的权限 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name=".MApplication"
@@ -18,16 +24,17 @@
         <!-- ACTIVITY -->
         <activity android:name=".ui.activity.SplashActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".ui.activity.LoadingActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.MainActivity"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".ui.activity.NetworkActivity"
             android:screenOrientation="portrait"/>
@@ -49,9 +56,12 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.ServiceTestActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.EmptyActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- SERVICE -->
         <service android:name=".ui.service.PlayService"/>
+        <service android:name=".ui.service.DownService"/>
     </application>
 
 </manifest>

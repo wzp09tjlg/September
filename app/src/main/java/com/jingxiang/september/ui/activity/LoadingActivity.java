@@ -1,6 +1,5 @@
 package com.jingxiang.september.ui.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,7 +18,9 @@ public class LoadingActivity extends BaseFragmentActivity {
     private ImageView imgLogo;
 
     /** Data */
-    private Context mContext;
+    private int mClickCount = 0;
+
+    private LoginRunnable mLoginRunnable ;
     /****************************************************/
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,13 +36,25 @@ public class LoadingActivity extends BaseFragmentActivity {
     }
 
     private void initData(){
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intentMain = new Intent(LoadingActivity.this, MainActivity.class);
-                startActivity(intentMain);
-                finish();
-            }
-        },3000);
+        mLoginRunnable = new LoginRunnable();
+        mHandler.postDelayed(mLoginRunnable,3000);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mClickCount += 1;
+        if(mClickCount >= 2){
+            mHandler.removeCallbacksAndMessages(null);//移除所有的callBack 和 Message
+        }
+    }
+
+    class LoginRunnable implements Runnable{
+        @Override
+        public void run() {
+            Intent intentMain = new Intent(LoadingActivity.this, MainActivity.class);
+            startActivity(intentMain);
+            finish();
+        }
     }
 }

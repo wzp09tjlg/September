@@ -4,8 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
 import com.jingxiang.september.network.parse.ChannelItem;
+import com.jingxiang.september.network.parse.UpdateBean;
 import com.jingxiang.september.util.LogUtil;
 
 import java.util.ArrayList;
@@ -384,5 +386,119 @@ public class CommonDao implements DaoInterface {
                 cursor.close();
         }
         return list;
+    }
+
+    /** version_update */
+    //查询
+    @Override
+    public UpdateBean selectUpdateBean(String versionCode) {
+        if(!isTableExist(CommonDB.TABLE_VERSION_UPDATE)) return null;
+        UpdateBean bean = new UpdateBean();
+        SQLiteDatabase db = commonDB.getReadableDatabase();
+        Cursor cursor = null;
+        try{
+             cursor = db.query(CommonDB.TABLE_VERSION_UPDATE,new String[]{"url,start,end,finished,status,updates"}
+                     ,"versioncode=?",new String[]{versionCode},null,null,null);
+            if(cursor != null){
+                cursor.moveToFirst();
+                bean.download_link = cursor.getString(cursor.getColumnIndex("url"));
+                bean.start = cursor.getLong(cursor.getColumnIndex("start"));
+                bean.end   = cursor.getLong(cursor.getColumnIndex("end"));
+                bean.finished = cursor.getLong(cursor.getColumnIndex("finished"));
+                bean.version_code = versionCode;
+                bean.status = cursor.getInt(cursor.getColumnIndex("status"));
+                bean.intro = cursor.getString(cursor.getColumnIndex("updates"));
+            }
+            return bean;
+        }catch (Exception e){
+
+        }finally {
+            if(cursor != null && !cursor.isClosed())
+                cursor.close();
+        }
+        return null;
+    }
+
+    //插入
+    @Override
+    public boolean insertUpdateBean(UpdateBean bean) {
+        if(bean == null) return false;
+        SQLiteDatabase db = commonDB.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        long tempResult = 0;
+        try{
+            db.beginTransaction();
+            cv.put("url",bean.download_link);
+            cv.put("start",bean.start);
+            cv.put("end",bean.end);
+            cv.put("finished",bean.finished);
+            cv.put("versioncode",bean.version_code);
+            cv.put("status",bean.status);
+            cv.put("updates",bean.intro);
+            tempResult = db.insert(CommonDB.TABLE_VERSION_UPDATE,null,cv);
+            db.setTransactionSuccessful();
+        }catch (Exception e){
+            LogUtil.e("e.msg:" + e.getMessage());
+        }
+        finally {
+            db.endTransaction();
+        }
+        return tempResult > 0;
+    }
+
+    //删除单条记录
+    @Override
+    public boolean deleteUpdateBean(String versionCode) {
+        if(TextUtils.isEmpty(versionCode)) return false;
+        SQLiteDatabase db = commonDB.getWritableDatabase();
+        long tempResult = 0;
+        try {
+            db.beginTransaction();
+            tempResult = db.delete(CommonDB.TABLE_VERSION_UPDATE
+                    ,"versionCode=?",new String[]{versionCode});
+            db.setTransactionSuccessful();
+        }catch (Exception e){}
+        finally {
+            db.endTransaction();
+        }
+        return tempResult != 0;
+    }
+
+    //删除所有
+    @Override
+    public boolean deleteAllUpdateBean() {
+        SQLiteDatabase db = commonDB.getWritableDatabase();
+        long tempResult = 0;
+        try {
+            db.beginTransaction();
+            tempResult = db.delete(CommonDB.TABLE_VERSION_UPDATE
+                    ,null,null);
+            db.setTransactionSuccessful();
+        }catch (Exception e){}
+        finally {
+            db.endTransaction();
+        }
+        return tempResult != 0;
+    }
+
+    //更新
+    @Override
+    public boolean updateUpdateBean(UpdateBean bean) {
+        if(bean == null) return false;
+        SQLiteDatabase db = commonDB.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("start",bean.start);
+        cv.put("end",bean.end);
+        cv.put("finished",bean.finished);
+        long tempResult = 0;
+        try {
+            db.beginTransaction();
+            tempResult = db.update(CommonDB.TABLE_VERSION_UPDATE,cv,"versioncode=?",new String[]{bean.version_code});
+            db.setTransactionSuccessful();
+        }catch (Exception e){}
+        finally {
+            db.endTransaction();
+        }
+        return tempResult > 0;
     }
 }

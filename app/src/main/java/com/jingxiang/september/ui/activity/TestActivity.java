@@ -172,13 +172,25 @@ public class TestActivity extends BaseFragmentActivity implements
                 break;
             case R.id.btn_test6:
                 //测试使用service的类
-                Bundle bundleServiceTest = new Bundle();
+                final Bundle bundleServiceTest = new Bundle();
                 bundleServiceTest.putString("TITLE","Service Test");
                 Intent intentServiceTest = new Intent(TestActivity.this, ServiceTestActivity.class);
                 intentServiceTest.putExtras(bundleServiceTest);
                 startActivity(intentServiceTest);
                 break;
             case R.id.btn_test7:
+               /* ThreadPool.execute(new Runnable() { //启动activity 和 service 无论是在主线程还是子线程中都是可以的
+                    @Override
+                    public void run() {
+                        Bundle bundleTest = new Bundle();
+                        bundleTest.putString("TITLE","GIRL");
+                        Intent intentStartDownload = new Intent(mContext, GirlPicActivity.class);
+                        intentStartDownload.putExtras(bundleTest);
+                        mContext.startActivity(intentStartDownload);
+                    }
+                });*/
+                Intent intentEmpty = new Intent(mContext,EmptyActivity.class);
+                startActivity(intentEmpty);
                 break;
         }
     }

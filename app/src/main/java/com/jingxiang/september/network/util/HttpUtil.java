@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.jingxiang.september.network.request.BaseRequest;
 import com.jingxiang.september.util.CommonHelper;
+import com.jingxiang.september.util.LogUtil;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -34,6 +35,7 @@ public class HttpUtil {
             map.put("showapi_sign",sign);
             tempUrl = urlBuilder(request.getmUrl(),map);
         }
+        LogUtil.e("" + tempUrl);
         mClient.newCall(new Request.Builder().url(tempUrl).tag(request.getTag())
                 .build()).enqueue(request);
     }
@@ -52,6 +54,7 @@ public class HttpUtil {
             }
         }
 
+        LogUtil.e("" + request.getmUrl());
         RequestBody body = encodingBuilder.build();
         mClient.newCall(new Request.Builder().url(request.getmUrl()).tag(request.getTag())
                 .post(body).build()).enqueue(request);
