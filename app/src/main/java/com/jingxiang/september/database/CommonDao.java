@@ -400,23 +400,24 @@ public class CommonDao implements DaoInterface {
              cursor = db.query(CommonDB.TABLE_VERSION_UPDATE,new String[]{"url,start,end,finished,status,updates"}
                      ,"versioncode=?",new String[]{versionCode},null,null,null);
             if(cursor != null){
-                cursor.moveToFirst();
-                bean.download_link = cursor.getString(cursor.getColumnIndex("url"));
-                bean.start = cursor.getLong(cursor.getColumnIndex("start"));
-                bean.end   = cursor.getLong(cursor.getColumnIndex("end"));
-                bean.finished = cursor.getLong(cursor.getColumnIndex("finished"));
-                bean.version_code = versionCode;
-                bean.status = cursor.getInt(cursor.getColumnIndex("status"));
-                bean.intro = cursor.getString(cursor.getColumnIndex("updates"));
+                if(cursor.moveToNext()){
+                    bean.download_link = cursor.getString(cursor.getColumnIndex("url"));
+                    bean.start = cursor.getLong(cursor.getColumnIndex("start"));
+                    bean.end   = cursor.getLong(cursor.getColumnIndex("end"));
+                    bean.finished = cursor.getLong(cursor.getColumnIndex("finished"));
+                    bean.version_code = versionCode;
+                    bean.status = cursor.getInt(cursor.getColumnIndex("status"));
+                    bean.intro = cursor.getString(cursor.getColumnIndex("updates"));
+                }
             }
             return bean;
         }catch (Exception e){
-
+            LogUtil.e("selectUpdateBean e:" + e.getMessage());
         }finally {
             if(cursor != null && !cursor.isClosed())
                 cursor.close();
         }
-        return null;
+        return bean;
     }
 
     //插入

@@ -33,6 +33,7 @@ public class SplashActivity extends BaseFragmentActivity {
 
     private LoadingRunnable mLoadingRunnable;
     private UpdateBean mUpdateBean;
+    private NetworkManager<UpdateBean> manager ;
 
     /***************************************************/
     @Override
@@ -59,6 +60,8 @@ public class SplashActivity extends BaseFragmentActivity {
         mClickCount += 1;
         if(mClickCount >= 2){
           mHandler.removeCallbacksAndMessages(null);//移除所有的callBack 和 Message
+          if(manager != null)
+              manager.cancelRequest(TAG);
         }
     }
 
@@ -72,7 +75,7 @@ public class SplashActivity extends BaseFragmentActivity {
     }
 
     private void doCheckUpdate(){
-        NetworkManager<UpdateBean> manager = new NetworkManager<>(UpdateBean.class,getDataListener());
+        manager = new NetworkManager<>(UpdateBean.class,getDataListener());
         Map<String,String> params = new HashMap<>();
         params.put("app_version","10");
         params.put("app_channel","Huasheng");

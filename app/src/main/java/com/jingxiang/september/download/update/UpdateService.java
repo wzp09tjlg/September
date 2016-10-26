@@ -39,6 +39,7 @@ public class UpdateService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         LogUtil.e("onStartCommand");
         mContext = this;
+
         initData(mContext,intent);
         startDownload();
         return super.onStartCommand(intent, flags, startId);
@@ -71,6 +72,7 @@ public class UpdateService extends Service {
     private void initData(Context context,Intent intent){
         try{
             bean = (UpdateBean) intent.getSerializableExtra("BEAN");
+            LogUtil.e("service: bean:" + bean);
             mDownTask = new DownTask(context,bean);
         }catch (Exception e){}
     }
@@ -82,16 +84,16 @@ public class UpdateService extends Service {
 
     //请求网络
     private void doDownloadFromService(Context context, UpdateBean bean) {
-        LogUtil.e("Download 1");
+        LogUtil.e("Download 1 bean:" + bean);
         if(bean == null || TextUtils.isEmpty(bean.download_link)) return;//网络状态的改变 开启和关闭更新的服务,但是需要做对空的判断
-        LogUtil.e("Download 2");
+        LogUtil.e("Download 2.0");
         HttpURLConnection conn = null;
         RandomAccessFile raf = null;
         InputStream in = null;
         int respCode = 0;
         long finished = 0;
         int requestCount = 0;//请求次数
-        LogUtil.e("Download 2");
+        LogUtil.e("Download 2.1");
         try {
             LogUtil.e("Download 3");
             URL url = new URL(bean.download_link);
@@ -142,6 +144,7 @@ public class UpdateService extends Service {
             }
 
         } catch (Exception e) {
+            LogUtil.e("8: e:" + e.getMessage());
             if (respCode == -1 || respCode == 0) {
                 if (requestCount < 3) {
                     //重新联网一次

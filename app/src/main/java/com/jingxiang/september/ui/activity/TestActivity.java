@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import com.jingxiang.september.MApplication;
 import com.jingxiang.september.R;
 import com.jingxiang.september.download.DownloadManager2;
+import com.jingxiang.september.download.update.UpdateManager;
 import com.jingxiang.september.network.parse.ChannelItem;
 import com.jingxiang.september.ui.base.BaseFragmentActivity;
 import com.jingxiang.september.ui.widget.RoundEditImageView;
@@ -24,6 +26,7 @@ import com.jingxiang.september.util.CommonHelper;
 import com.jingxiang.september.util.LogUtil;
 import com.jingxiang.september.util.ThreadPool;
 
+import java.io.File;
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -189,14 +192,21 @@ public class TestActivity extends BaseFragmentActivity implements
                         mContext.startActivity(intentStartDownload);
                     }
                 });*/
-                Intent intentEmpty = new Intent(mContext,EmptyActivity.class);
-                startActivity(intentEmpty);
+                /*Intent intentEmpty = new Intent(mContext,MatrixActivity.class);
+                startActivity(intentEmpty);*/
                /* Bundle bundleRestart = new Bundle();
                 bundleRestart.putString("TITLE","restart");
                 bundleRestart.putString("URL","https://www.baidu.com/baidu?tn=monline_3_dg&ie=utf-8&wd=%E5%AE%89%E5%8D%93%E4%B8%ADonNewIntent+%E6%98%AF%E5%9C%A8%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E8%BF%9B%E8%A1%8C%EF%BC%8C%E8%B5%B0%E5%93%AA%E4%BA%9B%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%96%B9%E6%B3%95");
                 Intent intentRestart = new Intent(TestActivity.this,WebViewActivity.class);
                 intentRestart.putExtras(bundleRestart);
                 startActivity(intentRestart);*/
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                File file = new File(UpdateManager.DOWNLOAD_FILE_SAVE_PATH + File.separator + UpdateManager.DOWNLOAD_FILE_SAVE_NAME);
+                intent.setDataAndType(Uri.fromFile(file),
+                        "application/vnd.android.package-archive");
+                startActivity(intent);
                 break;
         }
     }

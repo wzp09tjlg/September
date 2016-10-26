@@ -24,17 +24,17 @@
         <!-- ACTIVITY -->
         <activity android:name=".ui.activity.SplashActivity"
             android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name=".ui.activity.LoadingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.MainActivity"
-            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".ui.activity.LoadingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.MainActivity"
+            android:screenOrientation="portrait">
+
         </activity>
         <activity android:name=".ui.activity.NetworkActivity"
             android:screenOrientation="portrait"/>
@@ -59,10 +59,20 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.EmptyActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.MatrixActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- SERVICE -->
         <service android:name=".ui.service.PlayService"/>
         <service android:name=".ui.service.DownService"/>
+        <service android:name=".download.update.UpdateService"/>
+
+        <!-- Receiver -->
+        <receiver android:name=".download.update.NetStatusReceiver">
+            <intent-filter>
+               <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

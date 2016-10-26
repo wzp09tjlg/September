@@ -69,9 +69,7 @@ public class UpdateManager {
     }
 
     //进行更新
-    public void doUpdate(Context context,int versionCode){
-        mDBBean = MApplication.mCommonDao.selectUpdateBean(String.valueOf(versionCode));
-        LogUtil.e("DBBean:" + mDBBean);
+    public void doUpdate(final Context context,final int versionCode){
         if(mDBBean == null || TextUtils.isEmpty(mDBBean.version_code)){
             ThreadPool.execute(new Runnable() {
                 @Override
@@ -84,8 +82,16 @@ public class UpdateManager {
         }
         if(NetUtil.isNetworkConnected(context) && NetUtil.isNetWorkWifi(context)){//有网 有无线网时进行下载
             LogUtil.e("network is wifi ,and to prepare download");
-            Intent intentStartDownload = new Intent(context,UpdateService.class);
-            context.startService(intentStartDownload);
+            ThreadPool.execute(new Runnable() {
+                @Override
+                public void run() {
+                    mDBBean = MApplication.mCommonDao.selectUpdateBean(String.valueOf(versionCode));
+                    LogUtil.e("DBBean:" + mDBBean);
+                    Intent intentStartDownload = new Intent(context,UpdateService.class);
+                    intentStartDownload.putExtra("BEAN",mDBBean);
+                    context.startService(intentStartDownload);
+                }
+            });
         }
     }
 
