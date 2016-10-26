@@ -51,7 +51,8 @@
         <activity android:name=".ui.activity.GirlPicActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.WebViewActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+             android:launchMode="singleTop"/>
         <activity android:name=".ui.activity.AuthorActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.ServiceTestActivity"

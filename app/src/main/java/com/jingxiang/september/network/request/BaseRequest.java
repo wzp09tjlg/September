@@ -124,7 +124,7 @@ public class BaseRequest<T> implements Callback{
         try {
             JSONObject jsonObject = new JSONObject(new String(data));
             GsonUtil<T> parse = new GsonUtil();
-            Object tempObject = jsonObject.get("data");//jsonObject.get("showapi_res_body");
+            Object tempObject = jsonObject.get("data");//"showapi_res_body");
             if(tempObject instanceof JSONArray){
                 String tempJson = tempObject.toString();
                 if(tempJson.equals("[]"))

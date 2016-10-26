@@ -191,6 +191,12 @@ public class TestActivity extends BaseFragmentActivity implements
                 });*/
                 Intent intentEmpty = new Intent(mContext,EmptyActivity.class);
                 startActivity(intentEmpty);
+               /* Bundle bundleRestart = new Bundle();
+                bundleRestart.putString("TITLE","restart");
+                bundleRestart.putString("URL","https://www.baidu.com/baidu?tn=monline_3_dg&ie=utf-8&wd=%E5%AE%89%E5%8D%93%E4%B8%ADonNewIntent+%E6%98%AF%E5%9C%A8%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E8%BF%9B%E8%A1%8C%EF%BC%8C%E8%B5%B0%E5%93%AA%E4%BA%9B%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%96%B9%E6%B3%95");
+                Intent intentRestart = new Intent(TestActivity.this,WebViewActivity.class);
+                intentRestart.putExtras(bundleRestart);
+                startActivity(intentRestart);*/
                 break;
         }
     }
