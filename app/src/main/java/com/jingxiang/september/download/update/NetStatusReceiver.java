@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.jingxiang.september.ui.service.DownService;
+import com.jingxiang.september.MApplication;
+import com.jingxiang.september.network.parse.UpdateBean;
+import com.jingxiang.september.util.LogUtil;
 import com.jingxiang.september.util.NetUtil;
 import com.jingxiang.september.util.ThreadPool;
 
@@ -27,15 +29,15 @@ public class NetStatusReceiver extends BroadcastReceiver {
                NetworkInfo[] networkInfos=cm.getAllNetworkInfo();
                for (int i = 0; i < networkInfos.length; i++) {
                    NetworkInfo.State state=networkInfos[i].getState();
-                   if (NetworkInfo.State.CONNECTED==state) {
+                   if (NetworkInfo.State.CONNECTED==state) {//网络连接 包括有线(移动端可以有有线吗?) 2G 3G 4G这些网络
                        hasNet = true;
                        doOperateConnect(context);
-                       System.out.println("------------> Network is ok");
+                       LogUtil.e("network is connected");
                        return;
                    }
                }
 
-               if(!hasNet){
+               if(!hasNet){//网络断开的情况
                    UpdateService.isPause = true;
                }
            }
@@ -48,15 +50,19 @@ public class NetStatusReceiver extends BroadcastReceiver {
             ThreadPool.execute(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intentStartDownload = new Intent(context, DownService.class);
-                    context.startService(intentStartDownload);
+                    UpdateBean mDBBean = MApplication.mCommonDao.selectUpdateBean();//提供了一个空参数的获取下载的bean
+                    if(mDBBean != null && mDBBean.end != mDBBean.finished){
+                        Intent intentStartDownload = new Intent(context, UpdateService.class);
+                        intentStartDownload.putExtra("BEAN",mDBBean);
+                        context.startService(intentStartDownload);
+                    }
                 }
             });
         }else{
             ThreadPool.execute(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intentStartDownload = new Intent(context, DownService.class);
+                    Intent intentStartDownload = new Intent(context, UpdateService.class);
                     context.stopService(intentStartDownload);
                 }
             });

@@ -41,6 +41,7 @@ public interface DaoInterface {
     /** version_update */
     //查询
     UpdateBean selectUpdateBean(String versionCode);
+    UpdateBean selectUpdateBean();
     //插入
     boolean insertUpdateBean(UpdateBean bean);
     //删除

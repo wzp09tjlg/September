@@ -23,7 +23,7 @@ import java.net.URL;
  */
 public class UpdateService extends Service {
     /** Data */
-    public static boolean isPause = true;//控制下载的状态
+    public static boolean isPause = true;//控制下载的状态,状态改变只有在进入时可以下载时改变 网络状态发生改变时改变
     private Context mContext;
     private DownTask mDownTask;
     private UpdateBean bean;
@@ -32,14 +32,11 @@ public class UpdateService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        LogUtil.e("onCreate");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        LogUtil.e("onStartCommand");
         mContext = this;
-
         initData(mContext,intent);
         startDownload();
         return super.onStartCommand(intent, flags, startId);
@@ -48,7 +45,6 @@ public class UpdateService extends Service {
     @Override
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
-        LogUtil.e("onStart");
     }
 
     @Nullable
@@ -65,37 +61,38 @@ public class UpdateService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        LogUtil.e("onDestroy");
         isPause = true;
     }
 
     private void initData(Context context,Intent intent){
         try{
-            bean = (UpdateBean) intent.getSerializableExtra("BEAN");
-            LogUtil.e("service: bean:" + bean);
-            mDownTask = new DownTask(context,bean);
+            if(bean == null)//如果之前已经开启过服务，那么bean就应该不为空
+              bean = (UpdateBean) intent.getSerializableExtra("BEAN");
         }catch (Exception e){}
+        if(bean != null)
+          mDownTask = new DownTask(context,bean);
     }
 
     private void startDownload(){
         isPause = false;
-        ThreadPool.execute(mDownTask);
+        if(mDownTask != null)
+          ThreadPool.execute(mDownTask);
     }
 
     //请求网络
     private void doDownloadFromService(Context context, UpdateBean bean) {
-        LogUtil.e("Download 1 bean:" + bean);
-        if(bean == null || TextUtils.isEmpty(bean.download_link)) return;//网络状态的改变 开启和关闭更新的服务,但是需要做对空的判断
-        LogUtil.e("Download 2.0");
+        if(bean == null || TextUtils.isEmpty(bean.download_link) || bean.end <= 0){
+            Intent intentStopService = new Intent(context,UpdateService.class);
+            context.stopService(intentStopService);//在服务中没有更新的bean,那么不进行更新下载操作.同样也实用于网络的状态的改变
+            return;//网络状态的改变 开启和关闭更新的服务,但是需要做对空的判断
+        }
         HttpURLConnection conn = null;
         RandomAccessFile raf = null;
         InputStream in = null;
         int respCode = 0;
         long finished = 0;
         int requestCount = 0;//请求次数
-        LogUtil.e("Download 2.1");
         try {
-            LogUtil.e("Download 3");
             URL url = new URL(bean.download_link);
             conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(3000);
@@ -112,7 +109,6 @@ public class UpdateService extends Service {
             finished += bean.finished;
             respCode = conn.getResponseCode();
             // 开始下载
-            LogUtil.e("Download 4");
             if (respCode == 206 || respCode == 200) {//206 Partial Content
                 // 读取数据
                 in = conn.getInputStream();
@@ -129,22 +125,19 @@ public class UpdateService extends Service {
                     } else if (finished > 0 && finished < bean.end) {
                         bean.status = UpdateManager.DOWNLOAD_STATUS_UNFINISHED;
                     }
-                    MApplication.mCommonDao.updateUpdateBean(bean);
 
-                    LogUtil.e("Download 5");
-                    if (isPause) {
+                    MApplication.mCommonDao.updateUpdateBean(bean);//已经在子线程中 所以这里不在开子线程进行数据的操作写数据库数据
+
+                    if (isPause) {//因为网络切换 不在联网或者是不再是wifi情况下 就不下载，但是服务会一直存在着的
                         return;
                     }
                 }
-                LogUtil.e("Download 6");
                 //去关闭下载服务
                 Intent intentStopDownload = new Intent(context, UpdateService.class);
                 context.stopService(intentStopDownload);
-                LogUtil.e("Download 7");
             }
 
         } catch (Exception e) {
-            LogUtil.e("8: e:" + e.getMessage());
             if (respCode == -1 || respCode == 0) {
                 if (requestCount < 3) {
                     //重新联网一次

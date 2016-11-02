@@ -61,6 +61,7 @@ public class BaseRequest<T> implements Callback{
 
     @Override
     public void onFailure(final Request request,final IOException e) {
+        LogUtil.e("onFailure");
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -72,13 +73,14 @@ public class BaseRequest<T> implements Callback{
 
     @Override
     public void onResponse(final Response response) throws IOException {
+        LogUtil.e("onResponse");
         byte[] data = null;
         try{
             ResponseBody body = response.body();
             if(body != null)
-                data = body.bytes();
+                data =  body.bytes();
         }catch (Exception e){
-            LogUtil.e("Exception: data is null:" + (data == null));
+            LogUtil.e("Exception: data is null:" + e.getMessage() +"  --> " + (data == null) + "  response:" + response.toString());
         }
         final T t = parseNetworkResponse(data);
         mHandler.post(new Runnable() {
@@ -122,6 +124,7 @@ public class BaseRequest<T> implements Callback{
     protected T parseNetworkResponse(byte[] data){
         if(data == null) return null;
         try {
+            LogUtil.e("data:" + (new String(data)));
             JSONObject jsonObject = new JSONObject(new String(data));
             GsonUtil<T> parse = new GsonUtil();
             Object tempObject = jsonObject.get("data");//"showapi_res_body");

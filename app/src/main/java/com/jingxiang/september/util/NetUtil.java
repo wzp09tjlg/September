@@ -27,6 +27,21 @@ public class NetUtil {
         return null != networkInfo && networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
     }
 
+    /**检查网络是否为有线*/
+    public static boolean isNetWork2G(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        return null != networkInfo && networkInfo.getType() == ConnectivityManager.TYPE_ETHERNET;
+    }
+
+    /**检查网络是否为3G*/
+    public static boolean isNetWork3G(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        return null != networkInfo && networkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
+    }
+
+
     /**获取当前的网络状态 ：没有网络0：WIFI网络1：3G网络2：2G网络3*/
     private static int getAPNType(Context context) {
         int netType = 0;

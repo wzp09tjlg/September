@@ -65,6 +65,15 @@ public class SplashActivity extends BaseFragmentActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(manager != null){
+            manager.cancelRequest(TAG);
+            manager = null;
+        }
+    }
+
     class LoadingRunnable implements Runnable{
         @Override
         public void run() {
@@ -86,7 +95,7 @@ public class SplashActivity extends BaseFragmentActivity {
         BaseRequest.Listener<UpdateBean> listener = new BaseRequest.Listener<UpdateBean>() {
             @Override
             public void onFailure(String errMsg, BaseRequest request) {
-                GloableToast.show("get update info is failure");
+                GloableToast.show("get update info is failure:" + errMsg);
             }
 
             @Override

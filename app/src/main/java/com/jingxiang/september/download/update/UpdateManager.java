@@ -54,16 +54,26 @@ public class UpdateManager {
         if(mServerBean != null){
             mServerVersionCode = Integer.parseInt(mServerBean.version_code);
             mAppVersionCode = DeviceInfoManager.getAppVersionCode(context);
-            if(mServerVersionCode > mAppVersionCode){//需要下载
+            if(mServerVersionCode > mAppVersionCode&& mServerVersionCode > 0 && mAppVersionCode > 0){//需要下载
                 mDBBean = MApplication.mCommonDao.selectUpdateBean(String.valueOf(mServerVersionCode));
+                LogUtil.e("abcd","DBBean: mServerVersionCode:" + mServerVersionCode + " --> " + mDBBean );
                 if(mDBBean != null && !TextUtils.isEmpty(mDBBean.version_code)){ //重新下载
-                     if(!mDBBean.version_code.equals(mServerVersionCode)){//之前下载的版本与当前服务器上最新版本不一致,删除之前下载的版本
+                    int tempDBCode = Integer.parseInt(mDBBean.version_code);
+                    if( tempDBCode != mServerVersionCode){//之前下载的版本与当前服务器上最新版本不一致,删除之前下载的版本
                          doDeleteLocalFile();
                          doDeleteDBRecord();
+                         mDBBean = null;
+                         LogUtil.e("abcd"," delete and do to download ");
+                        return true;
+                     }else{
+                         LogUtil.e("abcd","stop download  :" + (mDBBean.end == mDBBean.finished));
+                         if(mDBBean.end == mDBBean.finished)
+                             return false;//表示之前已经下载完了，不需要再次下载
                      }
                 }
+                return true;
             }
-            return true;
+            return false;
         }else
           return false;
     }
@@ -76,17 +86,29 @@ public class UpdateManager {
                 public void run() {
                     long tempFileLength = doGetDownloadLength(mServerBean.download_link);
                     LogUtil.e("tempFileLength:" + tempFileLength);
-                    doSaveDBRecord(mServerBean.download_link,tempFileLength,mServerBean.version_code);
+                    mDBBean = new UpdateBean();
+                    mDBBean.end = tempFileLength;
+                    mDBBean.download_link = mServerBean.download_link;
+                    mDBBean.version_code = mServerBean.version_code;
+                    mDBBean.intro = mServerBean.intro;
+                    boolean isInserted = doSaveDBRecord(mDBBean);
+
+                    if(isInserted && NetUtil.isNetworkConnected(context) && NetUtil.isNetWorkWifi(context)){//有网 有无线网时进行下载
+                        LogUtil.e("network is wifi ,and to prepare download");
+                        if(mDBBean == null)//如果版本不一致,之前取得的数据就是无效数据,需要重新获取新的数据
+                            mDBBean = MApplication.mCommonDao.selectUpdateBean(String.valueOf(versionCode));
+                        LogUtil.e("DBBean: there need check weather the end is below or equal 0: " + mDBBean + "\n"
+                                + "  versionCode:" + versionCode);
+                        Intent intentStartDownload = new Intent(context,UpdateService.class);
+                        intentStartDownload.putExtra("BEAN",mDBBean);
+                        context.startService(intentStartDownload);
+                    }
                 }
             });
-        }
-        if(NetUtil.isNetworkConnected(context) && NetUtil.isNetWorkWifi(context)){//有网 有无线网时进行下载
-            LogUtil.e("network is wifi ,and to prepare download");
+        }else if(mDBBean != null && !TextUtils.isEmpty(mDBBean.download_link)){
             ThreadPool.execute(new Runnable() {
                 @Override
                 public void run() {
-                    mDBBean = MApplication.mCommonDao.selectUpdateBean(String.valueOf(versionCode));
-                    LogUtil.e("DBBean:" + mDBBean);
                     Intent intentStartDownload = new Intent(context,UpdateService.class);
                     intentStartDownload.putExtra("BEAN",mDBBean);
                     context.startService(intentStartDownload);
@@ -135,13 +157,13 @@ public class UpdateManager {
         bean.download_link = url;
         bean.version_code = versionCode;
         LogUtil.e("doSaveDBRecord:" + bean);
-        ThreadPool.execute(new Runnable() {
-            @Override
-            public void run() {
-             boolean isInsert =  MApplication.mCommonDao.insertUpdateBean(bean);
-                LogUtil.e("isInsert:" + isInsert);
-            }
-        });
+        boolean isInsert =  MApplication.mCommonDao.insertUpdateBean(bean);
+        LogUtil.e("isInsert:" + isInsert);
+    }
+
+    private boolean doSaveDBRecord(UpdateBean bean){
+        boolean isInsert =  MApplication.mCommonDao.insertUpdateBean(bean);
+        return isInsert;
     }
 
     public void setServerBean(UpdateBean mServerBean) {

@@ -2,12 +2,15 @@ package com.jingxiang.september;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 
 import com.jingxiang.september.database.CommonDao;
 import com.jingxiang.september.download.update.UpdateManager;
+import com.jingxiang.september.download.update.UpdateService;
 import com.jingxiang.september.ui.base.BaseFragmentActivity;
 import com.jingxiang.september.ui.widget.GlobalToast.GloableToast;
 import com.jingxiang.september.util.ComSharepref;
+import com.jingxiang.september.util.LogUtil;
 import com.jingxiang.september.util.ThreadPool;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -38,6 +41,8 @@ public class MApplication extends Application {
 
     /** 仿activity生命周期的一个方法 */
     public void destory(){
+        LogUtil.e("application destory");
+        destoryGoableVar();
         removeAllActivity();
     }
 
@@ -55,6 +60,7 @@ public class MApplication extends Application {
 
     // 销毁全局变量
     private void destoryGoableVar(){//在主页销毁时 销毁全局变量?是否合适 和必要?
+        stopUpdateService();
         mCommonDao.closeDb();       //关闭数据库
         ThreadPool.shutdown();      //关闭线程池
     }
@@ -85,5 +91,11 @@ public class MApplication extends Application {
     public static RefWatcher getRefWatcher(Context context){
         MApplication application = (MApplication)context.getApplicationContext();
         return application.refWatcher;
+    }
+
+    /** 关闭下载服务 *///每次启动应用都不一定会开启下载服务,但是在每次启动应用的时候 都应该需要关闭下载更新的服务
+    private void stopUpdateService(){
+        Intent intentStopUpdateService = new Intent(mContext, UpdateService.class);
+        stopService(intentStopUpdateService);
     }
 }

@@ -168,44 +168,29 @@ public class DownloadManager2 {
 
         @Override
         public void onChange(boolean selfChange) {
-            LogUtil.i("onChange:" + selfChange);
             //每当/data/data/com.android.providers.download/database/database.db变化后，触发onCHANGE，开始具体查询
-            LogUtil.e( String.valueOf(downid));
             super.onChange(selfChange);
             //实例化查询类，这里需要一个刚刚的downid
-            LogUtil.i("onChange 1:");
             DownloadManager.Query query = new DownloadManager.Query().setFilterById(downid);
-            LogUtil.i("onChange 2:");
             DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
             //这个就是数据库查询啦
-            LogUtil.i("onChange 3:");
             Cursor cursor = null;
             try{
                 cursor = downloadManager.query(query);
-                LogUtil.i("onChange 4:");
                 cursor.moveToFirst();
-                LogUtil.i("onChange 5:");
-                LogUtil.i("onChange 6:");
                 int mDownload_so_far = cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));//目前下载量
-                LogUtil.i("onChange 6.1:" + mDownload_so_far);
                 int mDownload_all = cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));          //总下载量
-                LogUtil.i("onChange 6.2:" + mDownload_all);
                 int mProgress = (mDownload_so_far * 99) / mDownload_all;
-                LogUtil.i("onChange 6.3:" + mProgress);
                 LogUtil.e( String.valueOf(mProgress));
-                LogUtil.i("onChange 6.4:");
                 Message msg = Message.obtain();
                 msg.what = DOWNLOAD;
                 msg.arg1 = mProgress;
                 handler.handleMessage(msg);
             }catch (Exception e){
-                LogUtil.i("onChange 6.5:" + e.getMessage());
             }finally {
-                LogUtil.i("onChange 7:");
                 if(cursor != null && !cursor.isClosed())
                     cursor.close();
             }
-
         }
     }
 

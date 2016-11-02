@@ -420,6 +420,37 @@ public class CommonDao implements DaoInterface {
         return bean;
     }
 
+    @Override
+    public UpdateBean selectUpdateBean() {
+        if(!isTableExist(CommonDB.TABLE_VERSION_UPDATE)) return null;
+        UpdateBean bean = new UpdateBean();
+        SQLiteDatabase db = commonDB.getReadableDatabase();
+        Cursor cursor = null;
+        try{
+            cursor = db.query(CommonDB.TABLE_VERSION_UPDATE,new String[]{"url,start,end,finished,status,updates,versioncode"}
+                    ,null,null,null,null,null);
+            if(cursor != null){
+                if(cursor.moveToNext()){
+                    bean.download_link = cursor.getString(cursor.getColumnIndex("url"));
+                    bean.start = cursor.getLong(cursor.getColumnIndex("start"));
+                    bean.end   = cursor.getLong(cursor.getColumnIndex("end"));
+                    bean.finished = cursor.getLong(cursor.getColumnIndex("finished"));
+                    bean.version_code = String.valueOf(cursor.getInt(cursor.getColumnIndex("versioncode")));
+                    bean.status = cursor.getInt(cursor.getColumnIndex("status"));
+                    bean.intro = cursor.getString(cursor.getColumnIndex("updates"));
+                }
+            }
+            LogUtil.e("bean;" + bean);
+            return bean;
+        }catch (Exception e){
+            LogUtil.e("selectUpdateBean e:" + e.getMessage());
+        }finally {
+            if(cursor != null && !cursor.isClosed())
+                cursor.close();
+        }
+        return bean;
+    }
+
     //插入
     @Override
     public boolean insertUpdateBean(UpdateBean bean) {
@@ -491,6 +522,7 @@ public class CommonDao implements DaoInterface {
         cv.put("start",bean.start);
         cv.put("end",bean.end);
         cv.put("finished",bean.finished);
+        cv.put("status",bean.status);
         long tempResult = 0;
         try {
             db.beginTransaction();

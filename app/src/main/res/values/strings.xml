@@ -23,6 +23,8 @@
     <string name="main_tab3">写故事</string>
     <string name="main_tab4">发现</string>
     <string name="main_tab5">我的</string>
+    <!-- FragmentTab1-->
+    <string name="tab1_handler">FragmentHandler</string>
     <!-- FragmentTab5 -->
     <string name="tab5_Handler">handler</string>
     <string name="tab5_Network">Network</string>
