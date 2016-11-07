@@ -48,6 +48,20 @@ public class MainActivity extends BaseFragmentActivity {
         initViews();
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK)
+            LogUtil.e("abcd","keydown back:" + keyCode);
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK)
+            LogUtil.e("abcd","keyup back:" + keyCode);
+        return super.onKeyUp(keyCode, event);
+    }
+
     private void getExtra(Intent intent){
         Bundle bundle = intent.getExtras();
     }
@@ -139,11 +153,12 @@ public class MainActivity extends BaseFragmentActivity {
         ThreadPool.execute(new Runnable() {
             @Override
             public void run() {
-                LogUtil.e("12");
                 bean = MApplication.mCommonDao.selectUpdateBean();
                 int curVercode =  DeviceInfoManager.getAppVersionCode(mContext);
-                LogUtil.e("13  bean/:" + bean);
-                if(bean != null && Integer.parseInt(bean.version_code) == curVercode){
+                int tempVersionCode = 0;
+                if(bean != null && bean.version_code != null)
+                    tempVersionCode = Integer.parseInt(bean.version_code);
+                if(bean != null &&  tempVersionCode == curVercode){
                     deleteUpdateDBandFile();
                 }
                 if(bean != null && bean.end == bean.finished && bean.status == 3){ //在下一版中添加这个状态 1未下载 2下载未完成 3下载完成
@@ -155,13 +170,11 @@ public class MainActivity extends BaseFragmentActivity {
 
     private void deleteUpdateDBandFile(){
         try{
-            LogUtil.e("14");
             MApplication.mCommonDao.deleteUpdateBean(bean.version_code);
             File tempFile = new File(UpdateManager.DOWNLOAD_FILE_SAVE_PATH + File.separator
                     + UpdateManager.DOWNLOAD_FILE_SAVE_NAME);
             if(tempFile != null)
                 tempFile.delete();//如果下载的文件已经和安装的一个版本 就直接删除数据文件和下载的文件
-            LogUtil.e("15");
             return;
         }catch (Exception e){}
     }
@@ -174,7 +187,6 @@ public class MainActivity extends BaseFragmentActivity {
                 commonDialog.setCanceledOnTouchOutside(false);
                 commonDialog.setShowTitle(false);
                 commonDialog.setShowClose(false);
-                LogUtil.e("17");
                 commonDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
                     @Override
                     public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
@@ -194,7 +206,6 @@ public class MainActivity extends BaseFragmentActivity {
                         }
                     }
                 });
-                LogUtil.e("18");
                 View view = getLayoutInflater().inflate(R.layout.view_update_dialog, null);
                 ((TextView) view.findViewById(R.id.umeng_update_content)).setText(bean.intro);
                 if (forceInstall) {
@@ -217,7 +228,6 @@ public class MainActivity extends BaseFragmentActivity {
                     }
                 });
 
-                LogUtil.e("19");
                 view.findViewById(R.id.umeng_update_id_cancel).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -240,8 +250,6 @@ public class MainActivity extends BaseFragmentActivity {
                         startActivity(intent);
                     }
                 });
-                LogUtil.e("20");
-                LogUtil.e("21");
                 File file = new File(UpdateManager.DOWNLOAD_FILE_SAVE_PATH + File.separator + UpdateManager.DOWNLOAD_FILE_SAVE_NAME);
                 if(file != null && file.exists()){
                     commonDialog.showDialog();
@@ -265,7 +273,6 @@ public class MainActivity extends BaseFragmentActivity {
         }catch (Exception e){
             LogUtil.e("mainactivity desteory e:" + e.getMessage());
         }
-
     }
 
 }

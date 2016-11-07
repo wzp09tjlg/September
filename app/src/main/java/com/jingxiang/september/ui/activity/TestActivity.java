@@ -5,20 +5,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 import com.jingxiang.september.MApplication;
 import com.jingxiang.september.R;
 import com.jingxiang.september.download.DownloadManager2;
-import com.jingxiang.september.download.update.UpdateManager;
 import com.jingxiang.september.network.parse.ChannelItem;
+import com.jingxiang.september.stats.Event;
 import com.jingxiang.september.ui.base.BaseFragmentActivity;
 import com.jingxiang.september.ui.widget.RoundEditImageView;
 import com.jingxiang.september.util.ComSharepref;
@@ -27,7 +31,10 @@ import com.jingxiang.september.util.LogUtil;
 import com.jingxiang.september.util.ThreadPool;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -46,6 +53,9 @@ public class TestActivity extends BaseFragmentActivity implements
     private final String TAG_NAME = "TAG_NAME";
     private final String TAG_TYPE = "TAG_TYPE";
     private final String TAG_AGE = "TAG_AGE";
+
+    private static final String TEMP_FILE_PATH = Environment.getExternalStorageDirectory()
+            + File.separator + "tempFile.txt";
     /** View */
     private Button btnTest1;
     private Button btnTest2;
@@ -62,6 +72,7 @@ public class TestActivity extends BaseFragmentActivity implements
     private Context mContext;
     private DownloadManager2 manager2 ;
 
+    private int clickCount = 0;
     /**********************************************/
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,6 +113,23 @@ public class TestActivity extends BaseFragmentActivity implements
         btnTest5.setOnClickListener(this);
         btnTest6.setOnClickListener(this);
         btnTest7.setOnClickListener(this);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            LogUtil.e("abcd","keydown test");
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        LogUtil.e("abcd","keyup test");
+        return true;
+//        return super.onKeyUp(keyCode, event);
     }
 
     @Override
@@ -201,19 +229,30 @@ public class TestActivity extends BaseFragmentActivity implements
                 intentRestart.putExtras(bundleRestart);
                 startActivity(intentRestart);*/
 
-                Intent intent = new Intent(Intent.ACTION_VIEW);
+                /*Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 File file = new File(UpdateManager.DOWNLOAD_FILE_SAVE_PATH + File.separator + UpdateManager.DOWNLOAD_FILE_SAVE_NAME);
                 intent.setDataAndType(Uri.fromFile(file),
                         "application/vnd.android.package-archive");
-                startActivity(intent);
+                startActivity(intent);*/
+
+                clickCount = clickCount + 1;
+                if(clickCount % 2 == 1){
+                    LogUtil.e("abcd"," count 1");
+                    doWriteFile();
+                }else{
+                    LogUtil.e("abcd"," count 2");
+                    doReadFile();
+                }
                 break;
         }
     }
 
     private void doAsncOperate(){
         final OkHttpClient client = new OkHttpClient();
-        final Request request = new Request.Builder().url("https://www.facebook.com").build();
+
+        //使用OkHttpClient 请求网络时  添加header的参数，是添加到request中的
+        final Request request = new Request.Builder().addHeader("name","value").url("https://www.facebook.com").build();
 
         //同步请求
         new Thread(new Runnable() {
@@ -357,5 +396,76 @@ public class TestActivity extends BaseFragmentActivity implements
             }
         };
     }
+
+    //gson 读写一个文件中的流处理
+    private void doWriteFile(){
+        File tempFile = new File(TEMP_FILE_PATH);
+        if(!tempFile.exists()){
+            try{
+                tempFile.createNewFile();
+            }catch (Exception e){}
+        }
+
+        FileOutputStream fos = null;
+        try{
+            byte[] buffer = tempJson.getBytes();
+            fos =new FileOutputStream(tempFile);
+            fos.write(buffer);
+        }catch (Exception e){}finally {
+            if(fos!= null){
+                try{
+                    fos.flush();
+                    fos.close();
+                }catch (Exception e){}
+            }
+        }
+    }
+
+    private void doReadFile(){
+        File tempFile = new File(TEMP_FILE_PATH);
+        if(!tempFile.exists()) return;
+
+        FileInputStream fis = null;
+        InputStreamReader isReader = null;
+        JsonReader reader = null;
+        StringBuilder builder = new StringBuilder();
+        try{
+            fis = new FileInputStream(tempFile);
+            Gson gson = new Gson();
+            isReader = new InputStreamReader(fis);
+            reader = new JsonReader(isReader);
+            Event event = gson.fromJson(reader,Event.class);
+        }catch (Exception e){
+        }
+        finally {
+            if(reader != null){
+                try{
+                    reader.close();
+                }catch (Exception e){
+                }
+            }
+
+            if(isReader != null){
+                try{
+                    isReader.close();
+                }catch (Exception e){}
+            }
+
+            if(fis != null){
+                try{
+                    fis.close();
+                }catch (Exception e){}
+            }
+        }
+    }
+
+    private Event convert2Event(String json){
+        if(TextUtils.isEmpty(json)) return  null;
+        Gson tempGson = new Gson();
+        Event event = tempGson.fromJson(json,Event.class);
+        return event;
+    }
+
+    private String tempJson = "{id:\"123\";position:1;time:12321321;info:\"this is a test\";arg1:\"1\";arg2:\"2\";arg3:\"3\"}";
 
 }

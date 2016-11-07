@@ -35,7 +35,11 @@ import java.util.TreeMap;
  * 常用那个的工具类
  */
 public class CommonHelper {
+    /** Data */
+    private static final int MAX_EVENT_SESSION_COUNT = 99999;
+    private static int CURRENT_SESSION_COUNT = 0;
 
+    /****************************************************/
     /** map转化为字符串 */
     public static String paramstoString(Map<String, String> params, boolean isEncodeValue) {
         if (params != null && params.size() > 0) {
@@ -226,6 +230,22 @@ public class CommonHelper {
         paint.setXfermode(xfermode);
         canvas.drawBitmap(bitmap, rect, rect, paint);
         return roundCornerBitmap;
+    }
+
+    /** 生成唯一字符串*/
+    public static synchronized String getUniqueString() {
+        if (CURRENT_SESSION_COUNT > MAX_EVENT_SESSION_COUNT) {
+            CURRENT_SESSION_COUNT = 0;
+        }
+
+        String tempUnique = Long.toString(System.currentTimeMillis()) + Integer.toString(CURRENT_SESSION_COUNT);
+        CURRENT_SESSION_COUNT++;
+        return tempUnique;
+    }
+
+    /** 检查当前是否登录 */
+    public static boolean isUserLogded(){
+        return false;
     }
 
     private static DecimalFormat df = new DecimalFormat("#.##");

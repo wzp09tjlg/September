@@ -7,9 +7,11 @@ import android.content.Intent;
 import com.jingxiang.september.database.CommonDao;
 import com.jingxiang.september.download.update.UpdateManager;
 import com.jingxiang.september.download.update.UpdateService;
+import com.jingxiang.september.stats.EventManager;
 import com.jingxiang.september.ui.base.BaseFragmentActivity;
 import com.jingxiang.september.ui.widget.GlobalToast.GloableToast;
 import com.jingxiang.september.util.ComSharepref;
+import com.jingxiang.september.util.FinalUtil;
 import com.jingxiang.september.util.LogUtil;
 import com.jingxiang.september.util.ThreadPool;
 import com.squareup.leakcanary.LeakCanary;
@@ -29,6 +31,7 @@ public class MApplication extends Application {
     private RefWatcher refWatcher;
     public static CommonDao mCommonDao;
     public static UpdateManager mUpdateManager;
+
     /*********************************************/
     @Override
     public void onCreate() {
@@ -54,6 +57,8 @@ public class MApplication extends Application {
         GloableToast.getInsance(mContext);               //可以控制显示时间的toast
         mCommonDao = new CommonDao(mContext);            //数据库的公共类
         mUpdateManager = UpdateManager.getInstance();    //版本更新工具类
+
+        EventManager.init(mContext, FinalUtil.PATH);     //数据统计模块
 
         ThreadPool.init();                               //线程池的初始化
     }

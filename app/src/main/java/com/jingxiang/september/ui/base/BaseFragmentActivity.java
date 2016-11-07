@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.jingxiang.september.MApplication;
 import com.jingxiang.september.R;
+import com.jingxiang.september.stats.EventManager;
 import com.jingxiang.september.ui.widget.CommonDialog;
 import com.jingxiang.september.util.LogUtil;
 
@@ -37,6 +38,18 @@ public class BaseFragmentActivity extends FragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MApplication)getApplication()).addActivity(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventManager.getInstance().startEvent();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventManager.getInstance().stopEvent();
     }
 
     @Override
