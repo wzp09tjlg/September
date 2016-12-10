@@ -7,6 +7,7 @@ import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -156,12 +157,12 @@ public class MainActivity extends BaseFragmentActivity {
                 bean = MApplication.mCommonDao.selectUpdateBean();
                 int curVercode =  DeviceInfoManager.getAppVersionCode(mContext);
                 int tempVersionCode = 0;
-                if(bean != null && bean.version_code != null)
+                if(bean != null && !TextUtils.isEmpty(bean.version_code))
                     tempVersionCode = Integer.parseInt(bean.version_code);
-                if(bean != null &&  tempVersionCode == curVercode){
+                if(bean != null &&  tempVersionCode <= curVercode){
                     deleteUpdateDBandFile();
                 }
-                if(bean != null && bean.end == bean.finished && bean.status == 3){ //在下一版中添加这个状态 1未下载 2下载未完成 3下载完成
+                if(tempVersionCode > curVercode && bean != null && bean.end == bean.finished && bean.status == 3){ //在下一版中添加这个状态 1未下载 2下载未完成 3下载完成
                     doUpdateOperate();
                 }
             }
